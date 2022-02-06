@@ -1,0 +1,168 @@
+.navigationDrawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
+  display: block;
+
+  background-color: #ffffff;
+
+  @media (min-width: 600px) {
+    max-width: 320px;
+  }
+
+  & > header {
+    display: grid;
+    grid-template-areas:
+      "returnMenuButton title closeMenuButton"
+      ". subtitle .";
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+
+    @media (min-width: 600px) {
+      grid-template-areas:
+        ". . closeMenuButton"
+        "returnMenuButton title ."
+        ". subtitle .";
+    }
+
+    .returnMenuButton {
+      grid-area: returnMenuButton;
+    }
+
+    .title {
+      grid-area: title;
+    }
+
+    .subtitle {
+      grid-area: subtitle;
+    }
+
+    .closeMenuButton {
+      grid-area: closeMenuButton;
+    }
+  }
+
+  .logo {
+    display: none;
+
+    @media (min-width: 600px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin-top: 0.5rem;
+
+      display: block;
+      padding: 0.75rem;
+
+      & > img {
+        height: 30px;
+      }
+    }
+  }
+
+  .closeMenuButton {
+    border-radius: 50%;
+    border-style: none;
+    background-color: transparent;
+
+    padding: 0.75rem;
+
+    &:hover {
+      background-color: rgba(34, 34, 34, 0.075);
+    }
+
+    @media (min-width: 600px) {
+      margin: 0.5rem 0;
+    }
+  }
+
+  .returnMenuButton {
+    visibility: hidden;
+    border-radius: 50%;
+    border-style: none;
+    background-color: transparent;
+
+    padding: 0.75rem;
+
+    &.visible {
+      visibility: visible;
+    }
+
+    &:hover {
+      background-color: rgba(34, 34, 34, 0.075);
+    }
+  }
+
+  .title {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.125rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-weight: 300;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .categoryList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    height: 100%;
+    overflow-y: scroll;
+
+    button {
+      width: 100%;
+      padding: 1em;
+
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    & > li > ul > li {
+      a {
+        display: block;
+        padding: 0.75em 1em;
+
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      & > a {
+        font-weight: 500;
+      }
+    }
+
+    & > li > ul > li > ul > li {
+      font-weight: 300;
+
+      &:last-child {
+        padding-bottom: 0.5em;
+      }
+    }
+  }
+}

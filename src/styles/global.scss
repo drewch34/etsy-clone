@@ -14,6 +14,7 @@ code {
 
 button {
   cursor: pointer;
+  font-family: inherit;
 }
 
 * {
@@ -77,5 +78,16 @@ input[type="search"]::-webkit-search-results-decoration {
   &.cart {
     background: url("../assets/icon-cart.svg") no-repeat center;
     background-size: contain;
+  }
+
+  &.back {
+    background: url("../assets/icon-chevron-left.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.next {
+    background: url("../assets/icon-chevron-left.svg") no-repeat center;
+    background-size: contain;
+    transform: rotate(180deg);
   }
 }
