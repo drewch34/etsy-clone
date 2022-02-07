@@ -1,0 +1,197 @@
+.categoryNavigation {
+  .menuButton {
+    margin: auto -0.825rem auto;
+
+    border-style: none;
+    border-radius: 50%;
+    background-color: transparent;
+    padding: calc(0.825rem);
+
+    &:hover {
+      background-color: rgba(34, 34, 34, 0.075);
+    }
+
+    @media (min-width: 900px) {
+      display: none;
+    }
+  }
+
+  .closeMenuButton {
+    border-style: none;
+    border-radius: 50%;
+    background-color: transparent;
+    padding: calc(0.825rem);
+
+    &:hover {
+      background-color: rgba(34, 34, 34, 0.075);
+    }
+  }
+}
+
+.topBarNavigation {
+  display: none;
+
+  @media (min-width: 900px) {
+    display: block;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .categoryList {
+    display: flex;
+    justify-content: space-between;
+
+    position: relative;
+
+    & > li {
+      &:hover .tabbed {
+        display: block;
+      }
+    }
+
+    & > li > a {
+      position: relative;
+
+      font-size: 0.875rem;
+      padding: 1em 0.75em;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        display: block;
+        height: var(--header-border-bottom-width);
+        width: 0;
+        margin: auto;
+        transition: width 0.2s ease, background-color 0.2s ease;
+      }
+
+      &:hover::after {
+        width: 100%;
+        background-color: #222222;
+      }
+    }
+
+    .tabbed {
+      position: absolute;
+
+      display: none;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(34, 34, 34, 0.15);
+      border-radius: 0 0 0.25rem 0.25rem;
+    }
+
+    .tabList {
+      width: 30%;
+      border-right: 1px solid rgba(34, 34, 34, 0.15);
+      padding-bottom: 2rem;
+
+      // reset first item default (active) behaviour
+      &:hover > :first-child:not(:hover) {
+        background-color: transparent;
+        & > .tabPanel {
+          display: none;
+        }
+      }
+
+      & > li {
+        &:hover {
+          background-color: rgba(34, 34, 34, 0.15);
+
+          // tabPanel fallback when it has no elements
+          &::before {
+            display: block;
+          }
+          & > .tabPanel {
+            display: flex;
+          }
+        }
+
+        // first item active by default
+        &:first-child {
+          background-color: rgba(34, 34, 34, 0.15);
+          &:hover {
+            background-color: rgba(34, 34, 34, 0.15);
+          }
+          & > .tabPanel {
+            display: flex;
+          }
+        }
+
+        // tabPanel background when there is no elements
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          display: none;
+          width: 70%;
+          height: 100%;
+        }
+
+        & > a {
+          padding: 1em;
+
+          display: flex;
+          justify-content: space-between;
+
+          font-size: 0.875rem;
+          font-weight: 300;
+        }
+      }
+
+      .tabPanel {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        width: 70%;
+        height: 100%;
+        display: none;
+        flex-flow: column wrap;
+
+        padding: 1rem 0;
+
+        & > li {
+          padding: 0 1rem 1rem;
+        }
+
+        & > li > a {
+          padding-bottom: 0.5rem;
+
+          font-weight: 500;
+          font-size: 1rem;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        & > li > ul > li > a {
+          padding: 0.25rem 0;
+
+          font-weight: 300;
+          font-size: 0.875rem;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
