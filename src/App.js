@@ -1,14 +1,19 @@
+import { useState } from "react";
+
 import { makeServer } from "./mockServer";
 import styles from "./styles/Home.module.scss";
 import logo from "./assets/logo.svg";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { CategoryNavigation } from "./components/CategoryNavigation/CategoryNavigation";
+import { ShoppingCartButton } from "./components/ShoppingCartButton/ShoppingCartButton";
 
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
 }
 
 function App() {
+  const [totalItems, setTotalItems] = useState(3);
+
   return (
     <div>
       <header className={styles.header}>
@@ -24,13 +29,7 @@ function App() {
               </a>
             </li>
             <li>
-              <a
-                href="/#"
-                aria-label="Shopping cart"
-                className={styles.cartLink}
-              >
-                <span aria-hidden="true" className="icon lg cart"></span>
-              </a>
+              <ShoppingCartButton totalItems={totalItems} />
             </li>
           </ul>
         </nav>

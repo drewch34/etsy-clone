@@ -1,0 +1,26 @@
+.cartLink {
+  position: relative;
+
+  display: block;
+  border-radius: 50%;
+  padding: 1em;
+
+  &:hover {
+    background-color: rgba(34, 34, 34, 0.075);
+  }
+
+  .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 0.25rem 0.5rem;
+    border-radius: 999em;
+    border: 2px solid #fff;
+    background-color: #faa077;
+
+    line-height: 0.75rem;
+    font-size: 0.75rem;
+    color: #222222;
+  }
+}
