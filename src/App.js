@@ -6,6 +6,7 @@ import logo from "./assets/logo.svg";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { CategoryNavigation } from "./components/CategoryNavigation/CategoryNavigation";
 import { ShoppingCartButton } from "./components/ShoppingCartButton/ShoppingCartButton";
+import { ProductPhotoGallery } from "./components/ProductPhotoGallery/ProductPhotoGallery";
 
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
@@ -38,6 +39,9 @@ function App() {
 
         <SearchBar className={styles.searchBar} />
       </header>
+
+      < ProductPhotoGallery className={styles.ProductPhotoGallery}/>
+
     </div>
   );
 }
