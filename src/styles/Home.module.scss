@@ -5,10 +5,7 @@
 }
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   margin: auto;
 
   max-width: var(--page-content-max-width);
@@ -136,4 +133,3 @@
 .searchBar {
   grid-area: searchBar;
 }
-

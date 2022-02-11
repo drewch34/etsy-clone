@@ -40,8 +40,7 @@ function App() {
         <SearchBar className={styles.searchBar} />
       </header>
 
-      < ProductPhotoGallery className={styles.ProductPhotoGallery}/>
-
+      <ProductPhotoGallery className={styles.ProductPhotoGallery} />
     </div>
   );
 }
