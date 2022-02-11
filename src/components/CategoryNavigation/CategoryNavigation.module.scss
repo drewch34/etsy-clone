@@ -87,6 +87,8 @@
 
     .tabbed {
       position: absolute;
+      z-index: 100;
+      background-color: #ffff;
 
       display: none;
       width: 100%;

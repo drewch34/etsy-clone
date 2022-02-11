@@ -135,6 +135,8 @@
     position: absolute;
     left: 0;
     right: 0;
+    z-index: 110;
+
     margin: calc(var(--header-padding-box) - var(--header-border-bottom-width))
       0 0;
 
