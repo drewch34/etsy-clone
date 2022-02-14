@@ -2,3 +2,27 @@
   width: 60%;
   padding: 20px;
 }
+
+// .images {
+//   width: 10%;
+//   height: 10%
+// }
+
+.image {
+  width: 15%;
+  height: 15%;
+  border-radius: 10%;
+  padding-top: .5%;
+  align-items: inherit;
+  margin-left: -18px;
+  opacity: 50%
+}
+
+.image:hover {
+  opacity:100%;
+  transition:opacity .5s
+}
+
+li {
+  list-style-type: none;
+}

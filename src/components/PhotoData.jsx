@@ -1,11 +1,9 @@
-import { photo1 } from "../assets/wallet-photo1.avif";
-import { photo2 } from "../assets/wallet-photo2.webp";
-
-
-// /Users/drewhines/Desktop/etsy-clone/etsy-clone/src/assets/wallet-photo1.avif
-// /Users/drewhines/Desktop/etsy-clone/etsy-clone/src/components/PhotoData.jsx
+import React from 'react';
 
 export const images = [
-  { title: "wallet1", img: photo1 },
-  { title: "wallet2", img: photo2 }
-]
+  'https://i.etsystatic.com/19311499/r/il/b4be61/1839533908/il_1588xN.1839533908_lgk6.jpg',
+  // 'https://v-c.etsystatic.com/video/upload/ac_none,du_15,q_auto:good/15_Sec_SQ_Etsy_ksj5xw.mp4',
+  'https://i.etsystatic.com/19311499/r/il/99ac24/2220891021/il_1588xN.2220891021_i8vz.jpg',
+  'https://i.etsystatic.com/19311499/r/il/2ceeb6/2565076494/il_1588xN.2565076494_7yrp.jpg',
+  'https://i.etsystatic.com/19311499/r/il/db8640/3065683283/il_1588xN.3065683283_96o0.jpg'
+];

@@ -41,13 +41,8 @@ function App() {
 
         <SearchBar className={styles.searchBar} />
       </header>
-    <body>
-      <div>
-        <ProductPhotoGallery className={styles.photo}>
-          {/* <img src={photo1} alt="meow"></img> */}
-        </ProductPhotoGallery>
-      </div>
-    </body>
+
+      <ProductPhotoGallery className={styles.photo} />
 
 
     </div>
