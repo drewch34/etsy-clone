@@ -8,6 +8,8 @@ import { CategoryNavigation } from "./components/CategoryNavigation/CategoryNavi
 import { ShoppingCartButton } from "./components/ShoppingCartButton/ShoppingCartButton";
 import { ProductPhotoGallery } from "./components/ProductPhotoGallery/ProductPhotoGallery";
 
+import photo1 from './assets/wallet-photo1.avif';
+
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
 }
@@ -39,8 +41,15 @@ function App() {
 
         <SearchBar className={styles.searchBar} />
       </header>
+    <body>
+      <div>
+        <ProductPhotoGallery className={styles.photo}>
+          {/* <img src={photo1} alt="meow"></img> */}
+        </ProductPhotoGallery>
+      </div>
+    </body>
 
-      <ProductPhotoGallery className={styles.ProductPhotoGallery} />
+
     </div>
   );
 }

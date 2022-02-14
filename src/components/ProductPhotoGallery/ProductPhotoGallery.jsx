@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from "./ProductPhotoGallery.module.scss";
+import { images } from "../PhotoData";
+
+
+
 
 export function ProductPhotoGallery() {
   return (
-    <h1> photos </h1>
-  )
+    <div className={styles.photo}>
+      <h1>meow</h1>
+      <img src={images[0].img}></img>
+    </div>
+  );
 }
