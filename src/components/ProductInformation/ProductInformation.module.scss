@@ -59,3 +59,49 @@
     }
   }
 }
+
+.priceContainer {
+  font-weight: 300;
+  font-size: 0.875rem;
+
+  & > div {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  & > p:last-child {
+    margin-top: 1rem;
+  }
+
+  .price {
+    font-size: 1.75rem;
+    font-weight: 500;
+  }
+
+  .stock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+
+    font-weight: 500;
+  }
+
+  .textDiscount {
+    color: #258635;
+  }
+}
+
+.textGray {
+  color: #3b3b3b;
+}
+
+.textStrikethrough {
+  text-decoration: line-through;
+}

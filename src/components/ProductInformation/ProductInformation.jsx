@@ -5,14 +5,42 @@ const product = {
   title:
     "Valentines Day Gift for Him,Personalized Wallet,Mens Wallet,Engraved Wallet,Leather Wallet,Custom Wallet,Boyfriend Gift for Men,Gift for Dad",
   rating: 4.5,
+  price: {
+    sale: 10965,
+    original: 27416,
+    currency: "USD",
+    numberFormat: "en-US",
+  },
+  stock: 200,
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
-export function ProductInformation({className}) {
+export function ProductInformation({ className }) {
   function formatInteger(number) {
     return new Intl.NumberFormat().format(number);
   }
 
+  function formatCurrency(price, currency, numberFormat) {
+    return new Intl.NumberFormat(numberFormat, {
+      style: "currency",
+      currency: currency,
+      currencyDisplay: "code",
+    }).format(price / 100);
+  }
+
+  function formatPercent(value, numberFormat) {
+    return new Intl.NumberFormat(numberFormat, { style: "percent" }).format(
+      value
+    );
+  }
+
+  function getDiscount(original, sale) {
+    return original - sale;
+  }
+
+  function getDiscountPercentage(original, sale) {
+    return (original - sale) / original;
+  }
 
   return (
     <section className={`${className}`}>
@@ -53,14 +81,50 @@ export function ProductInformation({className}) {
           Selected by Etsy's style and trend editors.
         </Popover>
       </section>
+
+      <section className={styles.priceContainer}>
+        <div>
+          <p className={styles.price}>
+            {formatCurrency(
+              product.price.sale,
+              product.price.currency,
+              product.price.numberFormat
+            )}
+          </p>
+          <p className={`${styles.textGray} ${styles.textStrikethrough}`}>
+            {formatCurrency(
+              product.price.original,
+              product.price.currency,
+              product.price.numberFormat
+            )}
+          </p>
+          {product.stock > 0 ? (
+            <p className={styles.stock}>
+              <span aria-hidden="true" className="icon md check"></span>In stock
+            </p>
+          ) : null}
+        </div>
+
+        <p className={styles.textDiscount}>
+          You save{" "}
+          {formatCurrency(
+            getDiscount(product.price.original, product.price.sale),
+
+            product.price.currency,
+            product.price.numberFormat
+          )}{" "}
+          (
+          {formatPercent(
+            getDiscountPercentage(product.price.original, product.price.sale),
+            product.price.numberFormat
+          )}
+          )
+        </p>
+        <p className={styles.textGray}>
+          Local taxes included (where applicable)
+        </p>
+      </section>
       {/*
-      <div>
-        <p>USD 20.00+</p>
-        <p>from USD 50.00+</p>
-        <p>stock availability</p>
-        <p>You save USD 20.00 (10%)</p>
-        <p>Taxes info</p>
-      </div>
 
       <div className={styles.customizationOptions}>
         <p className={styles.field}>
