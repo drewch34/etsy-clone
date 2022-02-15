@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from "./ProductPhotoGallery.module.scss";
+import { images } from "../PhotoData";
+
 
 export function ProductPhotoGallery() {
+
+  const [currImage, setImage] = useState(images[0]);
+
+  function selectImage() {
+    setImage()
+  }
+
   return (
-    <h1> photos </h1>
-  )
+    <div className={styles.photo}>
+      <div className={styles.images}>
+        <ol>
+          {images.map((image) => (
+            <li key={image}>
+              <img src={image} alt="wallet" className={styles.image}></img>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div>
+        <img src={currImage} className={styles.currImage}></img>
+      </div>
+    </div>
+  );
 }

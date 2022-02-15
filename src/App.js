@@ -41,9 +41,15 @@ function App() {
         <SearchBar className={styles.searchBar} />
       </header>
 
+<<<<<<< HEAD
       <ProductPhotoGallery className={styles.ProductPhotoGallery} />
 
       <ProductInformation />
+=======
+      <ProductPhotoGallery className={styles.photo} />
+
+
+>>>>>>> 8c621d4d2a83dc211d25e883b9f148f5b5a9108f
     </div>
   );
 }
