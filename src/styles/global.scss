@@ -1,3 +1,7 @@
+:root {
+  --font-serif: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -15,6 +19,7 @@ code {
 button {
   cursor: pointer;
   font-family: inherit;
+  font-size: inherit;
 }
 
 * {
@@ -89,5 +94,15 @@ input[type="search"]::-webkit-search-results-decoration {
     background: url("../assets/icon-chevron-left.svg") no-repeat center;
     background-size: contain;
     transform: rotate(180deg);
+  }
+
+  &.starBadge {
+    background: url("../assets/icon-badge-star.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.star {
+    background: url("../assets/icon-star.svg") no-repeat center;
+    background-size: contain;
   }
 }

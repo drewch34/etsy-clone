@@ -7,6 +7,7 @@ import { SearchBar } from "./components/SearchBar/SearchBar";
 import { CategoryNavigation } from "./components/CategoryNavigation/CategoryNavigation";
 import { ShoppingCartButton } from "./components/ShoppingCartButton/ShoppingCartButton";
 import { ProductPhotoGallery } from "./components/ProductPhotoGallery/ProductPhotoGallery";
+import { ProductInformation } from "./components/ProductInformation/ProductInformation";
 
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
@@ -41,6 +42,8 @@ function App() {
       </header>
 
       <ProductPhotoGallery className={styles.ProductPhotoGallery} />
+
+      <ProductInformation />
     </div>
   );
 }

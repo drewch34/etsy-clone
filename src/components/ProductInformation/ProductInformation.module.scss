@@ -1,0 +1,61 @@
+.storeOverview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  & > a {
+    color: inherit;
+    text-decoration: none;
+  }
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    font-weight: 300;
+
+    .popover > button {
+      color: #9560b8;
+    }
+  }
+}
+
+.verticalSeparator {
+  &::after {
+    content: "|";
+    color: #e1e3df;
+  }
+}
+
+.rating {
+  display: flex;
+  gap: 0.25em;
+  color: inherit;
+}
+
+.productTitleContainer {
+  margin: 1.25em 0;
+
+  & > * {
+    margin: 0.5em 0;
+  }
+
+  .title {
+    font-weight: 300;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+  }
+
+  .popover {
+    font-weight: 300;
+
+    & > button {
+      padding: 0.5em 0.75em;
+      border-radius: 999em;
+      background-color: #fdebd2;
+
+      font-weight: 300;
+      color: #222222;
+    }
+  }
+}
