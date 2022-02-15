@@ -1,12 +1,14 @@
 .photo {
   width: 60%;
   padding: 20px;
+  grid-template-areas:
+    'images' 'image' 'image' 'image';
 }
 
-// .images {
-//   width: 10%;
-//   height: 10%
-// }
+.images {
+  position: relative;
+  grid-area: images;
+}
 
 .image {
   width: 15%;
@@ -14,7 +16,7 @@
   border-radius: 10%;
   padding-top: .5%;
   align-items: inherit;
-  margin-left: -18px;
+  margin-left: -7%;
   opacity: 50%
 }
 
@@ -25,4 +27,10 @@
 
 li {
   list-style-type: none;
+}
+
+.currImage {
+  width: 30%;
+  height: 30%;
+  position: relative;
 }

@@ -3,9 +3,14 @@ import styles from "./ProductPhotoGallery.module.scss";
 import { images } from "../PhotoData";
 
 
-
-
 export function ProductPhotoGallery() {
+
+  const [currImage, setImage] = useState(images[0]);
+
+  function selectImage() {
+    setImage()
+  }
+
   return (
     <div className={styles.photo}>
       <div className={styles.images}>
@@ -16,6 +21,10 @@ export function ProductPhotoGallery() {
             </li>
           ))}
         </ol>
+      </div>
+
+      <div>
+        <img src={currImage} className={styles.currImage}></img>
       </div>
     </div>
   );

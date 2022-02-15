@@ -8,8 +8,6 @@ import { CategoryNavigation } from "./components/CategoryNavigation/CategoryNavi
 import { ShoppingCartButton } from "./components/ShoppingCartButton/ShoppingCartButton";
 import { ProductPhotoGallery } from "./components/ProductPhotoGallery/ProductPhotoGallery";
 
-import photo1 from './assets/wallet-photo1.avif';
-
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
 }
