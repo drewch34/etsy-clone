@@ -8,13 +8,14 @@ const product = {
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
-export function ProductInformation() {
+export function ProductInformation({className}) {
   function formatInteger(number) {
     return new Intl.NumberFormat().format(number);
   }
 
+
   return (
-    <section className={styles.productInformation}>
+    <section className={`${className}`}>
       <section className={styles.storeOverview}>
         <a href="/#">{seller.name}</a>
         <div>
@@ -52,7 +53,7 @@ export function ProductInformation() {
           Selected by Etsy's style and trend editors.
         </Popover>
       </section>
-      {/* 
+      {/*
       <div>
         <p>USD 20.00+</p>
         <p>from USD 50.00+</p>

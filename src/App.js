@@ -17,7 +17,7 @@ function App() {
   const [totalItems, setTotalItems] = useState(3);
 
   return (
-    <div>
+    <div className={styles.container}>
       <header className={styles.header}>
         <a href="/#" tabIndex={0} className={styles.logo}>
           <img src={logo} alt="Logo" />
@@ -41,15 +41,12 @@ function App() {
         <SearchBar className={styles.searchBar} />
       </header>
 
-<<<<<<< HEAD
-      <ProductPhotoGallery className={styles.ProductPhotoGallery} />
 
-      <ProductInformation />
-=======
       <ProductPhotoGallery className={styles.photo} />
 
+      <ProductInformation className={styles.right}/>
 
->>>>>>> 8c621d4d2a83dc211d25e883b9f148f5b5a9108f
+
     </div>
   );
 }

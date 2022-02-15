@@ -3,7 +3,7 @@ import styles from "./ProductPhotoGallery.module.scss";
 import { images } from "../PhotoData";
 
 
-export function ProductPhotoGallery() {
+export function ProductPhotoGallery({className}) {
 
   const [currImage, setImage] = useState(images[0]);
 
@@ -12,7 +12,7 @@ export function ProductPhotoGallery() {
   }
 
   return (
-    <div className={styles.photo}>
+    <div className={`${styles.photo} ${className}`}>
       <div className={styles.images}>
         <ol>
           {images.map((image) => (

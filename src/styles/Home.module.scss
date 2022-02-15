@@ -137,24 +137,36 @@
 }
 
 
-// .grid-container {
-//   display: grid;
-//   grid-template-areas:
-//   'header header header header header header'
-//   'photo photo photo photo right right'
-//   'reviews reviews reviews reviews right right'
-//   'reviews reviews reviews reviews right right'
-//   'more' 'more' 'more' 'more' 'more' 'more'
-//   'more' 'more' 'more' 'more' 'more' 'more'
-//   'related' 'related' 'related' 'related' 'related' 'related'
-//   'footer' 'footer' 'footer' 'footer' 'footer' 'footer';
-//   grid-gap: 10px;
-//   padding: 10px
-// }
+.container {
+  display: grid;
+  grid-template-areas:
+  'header header'
+  'photo right'
+  'reviews right'
+  'more more'
+  'related related'
+  'footer footer';
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 10px;
+  padding: 10px;
 
-// .grid-container > div {
-//   margin: blue;
-//   text-align: center;
-//   padding: 20px 0;
-//   font-size: 30px;
-// }
+  & > .header {
+    grid-area: header;
+  }
+
+  & > .photo {
+    grid-area: photo;
+
+  }
+
+  & > .right {
+    grid-area: right;
+  }
+}
+
+.container > div {
+  margin: blue;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
