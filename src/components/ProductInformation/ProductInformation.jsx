@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { formatCurrency, formatInteger, formatPercent } from "../../utils";
 import { Popover } from "../Popover/Popover";
 import { SelectField } from "../SelectField/SelectField";
 import styles from "./ProductInformation.module.scss";
@@ -42,24 +43,6 @@ export function ProductInformation({ className }) {
     product.personalization.maxlength
   );
   const textareaRef = useRef(null);
-
-  function formatInteger(number) {
-    return new Intl.NumberFormat().format(number);
-  }
-
-  function formatCurrency(price, currency, numberFormat) {
-    return new Intl.NumberFormat(numberFormat, {
-      style: "currency",
-      currency: currency,
-      currencyDisplay: "code",
-    }).format(price / 100);
-  }
-
-  function formatPercent(value, numberFormat) {
-    return new Intl.NumberFormat(numberFormat, { style: "percent" }).format(
-      value
-    );
-  }
 
   function getDiscount(original, sale) {
     return original - sale;
