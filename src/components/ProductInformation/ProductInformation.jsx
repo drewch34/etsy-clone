@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as yup from "yup";
 
 import styles from "./ProductInformation.module.scss";
@@ -6,6 +5,7 @@ import { formatCurrency, formatInteger, formatPercent } from "../../utils";
 import { Popover } from "../Popover/Popover";
 import { SelectField } from "../SelectField/SelectField";
 import { TextareaField } from "../TextareaField/TextareaField";
+import { useForm } from "../../hooks/useForm";
 
 const product = {
   title:
@@ -64,8 +64,7 @@ const schema = {
 };
 
 export function ProductInformation({ className }) {
-  const [formValues, setFormValues] = useState({});
-  const [formErrors, setFormErrors] = useState({});
+  const { values, errors, onFormFieldChange, onFormSubmit } = useForm(schema);
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -75,58 +74,8 @@ export function ProductInformation({ className }) {
     return (original - sale) / original;
   }
 
-  function getErrors(yupErrorObject) {
-    return yupErrorObject.inner.reduce(
-      (prev, curr) => ({
-        ...prev,
-        [curr.path]: [...(prev[curr.path] || []), curr.message],
-      }),
-      {}
-    );
-  }
-
-  async function validateForm(values) {
-    try {
-      const validForm = await yup
-        .object()
-        .shape(schema)
-        .validate(values, { abortEarly: false });
-      return validForm;
-    } catch (e) {
-      setFormErrors(getErrors(e));
-    }
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    const validForm = await validateForm(formValues);
-    if (!validForm) return;
-
-    console.log(formValues);
-  }
-
-  async function validateField(fieldName, fieldValue) {
-    try {
-      await schema[fieldName].validate(fieldValue, { abortEarly: false });
-      setFormErrors((prev) => {
-        const { [fieldName]: _, ...rest } = prev;
-        return rest;
-      });
-    } catch (e) {
-      setFormErrors((state) => ({ ...state, [fieldName]: e.errors }));
-    }
-  }
-
-  function onFormFieldChange({ fieldName, fieldValue }) {
-    if (formErrors[fieldName]) validateField(fieldName, fieldValue);
-    setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
-  }
-
   function handleFieldChange(event) {
-    const fieldName = event.target.name;
-    const fieldValue = event.target.value;
-    onFormFieldChange({ fieldName, fieldValue });
+    onFormFieldChange(event.target.name, event.target.value);
   }
 
   return (
@@ -212,11 +161,11 @@ export function ProductInformation({ className }) {
         </p>
       </section>
 
-      <form onSubmit={handleSubmit} className={styles.productOptions}>
+      <form onSubmit={onFormSubmit} className={styles.productOptions}>
         <SelectField
-          value={formValues["engravingSide"]}
+          value={values["engravingSide"]}
           onChange={handleFieldChange}
-          errors={formErrors["engravingSide"]}
+          errors={errors["engravingSide"]}
           name="engravingSide"
           label="Engraving Side?"
           id="engravingSide"
@@ -229,9 +178,9 @@ export function ProductInformation({ className }) {
         </SelectField>
 
         <SelectField
-          value={formValues["color"]}
+          value={values["color"]}
           onChange={handleFieldChange}
-          errors={formErrors["color"]}
+          errors={errors["color"]}
           name="color"
           label="Color"
           id="color"
@@ -244,9 +193,9 @@ export function ProductInformation({ className }) {
         </SelectField>
 
         <TextareaField
-          value={formValues["personalization"]}
+          value={values["personalization"]}
           onChange={handleFieldChange}
-          errors={formErrors["personalization"]}
+          errors={errors["personalization"]}
           maxLength={product.personalization.maxlength}
           id="personalization"
           name="personalization"
