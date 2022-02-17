@@ -1,0 +1,36 @@
+.textareaField {
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    width: 100%;
+    box-shadow: 0 1px 4px 0 rgb(34 34 34 / 15%) inset;
+    border-radius: 0.5rem;
+    border: 1px solid #e1e3df;
+    padding: 0.5rem 0.875em;
+
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 2rem;
+    overflow-y: auto;
+
+    resize: vertical;
+
+    &:hover {
+      border-color: #858585;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #222222;
+    }
+  }
+}
+
+.textSmall {
+  font-size: 0.875rem;
+}
+
+.textAlignRight {
+  text-align: right;
+}

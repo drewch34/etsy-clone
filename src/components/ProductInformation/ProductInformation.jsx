@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { formatCurrency, formatInteger, formatPercent } from "../../utils";
 import { Popover } from "../Popover/Popover";
 import { SelectField } from "../SelectField/SelectField";
+import { TextareaField } from "../TextareaField/TextareaField";
 import styles from "./ProductInformation.module.scss";
 
 const product = {
@@ -39,10 +40,6 @@ const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
 export function ProductInformation({ className }) {
   const [formValues, setFormValues] = useState({});
-  const [remainingCharacters, setRemainingCharacters] = useState(
-    product.personalization.maxlength
-  );
-  const textareaRef = useRef(null);
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -57,16 +54,6 @@ export function ProductInformation({ className }) {
     console.log(formValues);
   }
 
-  function handleTextareaChange(event) {
-    const textarea = event.target;
-    const fieldName = textarea.name;
-    const fieldValue = textarea.value;
-    onFormFieldChange({ fieldName, fieldValue });
-    setRemainingCharacters(
-      product.personalization.maxlength - fieldValue.length
-    );
-  }
-
   function onFormFieldChange({ fieldName, fieldValue }) {
     setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
   }
@@ -76,22 +63,6 @@ export function ProductInformation({ className }) {
     const fieldValue = event.target.value;
     onFormFieldChange({ fieldName, fieldValue });
   }
-
-  useEffect(() => {
-    if (!formValues.personalization) return;
-    // resize area
-    const textarea = textareaRef.current;
-    const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
-    const paddingTop = parseFloat(getComputedStyle(textarea).paddingTop);
-    const paddingBottom = parseFloat(getComputedStyle(textarea).paddingBottom);
-    const minRows = 2;
-    textarea.style.height = "";
-    textarea.rows = minRows;
-    const calculatedRows = Math.floor(
-      (textarea.scrollHeight - paddingTop - paddingBottom) / lineHeight
-    );
-    textarea.rows = calculatedRows;
-  }, [formValues.personalization]);
 
   return (
     <section className={`${className}`}>
@@ -205,31 +176,27 @@ export function ProductInformation({ className }) {
           ))}
         </SelectField>
 
-        <div className={`${styles.textareaField}  ${styles.textSmall}`}>
-          <label>Add your personalization</label>
-          <p className={styles.textGray}>
-            Example only:
-            <br />
-            <br />
-            Front: PAUL
-            <br />
-            Inside right: I love you to the moon and back Inside left: I love
-            you more
-            <br />
-            <br />
-            "no engraving" if you choose "no engraving" option
-          </p>
-          <textarea
-            ref={textareaRef}
-            id="personalization"
-            name="personalization"
-            rows={2}
-            maxLength={product.personalization.maxlength}
-            onChange={handleTextareaChange}
-            value={formValues["personalization"]}
-          />
-          <span className={styles.textAlignRight}>{remainingCharacters}</span>
-        </div>
+        <TextareaField
+          value={formValues["personalization"]}
+          onChange={handleFieldChange}
+          maxLength={product.personalization.maxlength}
+          id="personalization"
+          name="personalization"
+          instructions={
+            <p className={styles.textGray}>
+              Example only:
+              <br />
+              <br />
+              Front: PAUL
+              <br />
+              Inside right: I love you to the moon and back Inside left: I love
+              you more
+              <br />
+              <br />
+              "no engraving" if you choose "no engraving" option
+            </p>
+          }
+        />
 
         <div className={styles.addToCart}>
           <button className={styles.buttonFilledPrimary}>Add to cart</button>
