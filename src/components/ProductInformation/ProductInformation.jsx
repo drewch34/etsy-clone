@@ -1,9 +1,11 @@
 import { useState } from "react";
+import * as yup from "yup";
+
+import styles from "./ProductInformation.module.scss";
 import { formatCurrency, formatInteger, formatPercent } from "../../utils";
 import { Popover } from "../Popover/Popover";
 import { SelectField } from "../SelectField/SelectField";
 import { TextareaField } from "../TextareaField/TextareaField";
-import styles from "./ProductInformation.module.scss";
 
 const product = {
   title:
@@ -38,8 +40,32 @@ const product = {
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
+const validationMessages = {
+  requiredOption: "Please select an option",
+  requiredPersonalization: "This item requires personalization",
+};
+
+const schema = {
+  engravingSide: yup
+    .string()
+    .ensure()
+    .trim()
+    .required(validationMessages.requiredOption),
+  color: yup
+    .string()
+    .ensure()
+    .trim()
+    .required(validationMessages.requiredOption),
+  personalization: yup
+    .string()
+    .ensure()
+    .trim()
+    .required(validationMessages.requiredPersonalization),
+};
+
 export function ProductInformation({ className }) {
   const [formValues, setFormValues] = useState({});
+  const [formErrors, setFormErrors] = useState({});
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -49,12 +75,51 @@ export function ProductInformation({ className }) {
     return (original - sale) / original;
   }
 
-  function handleSubmit(event) {
+  function getErrors(yupErrorObject) {
+    return yupErrorObject.inner.reduce(
+      (prev, curr) => ({
+        ...prev,
+        [curr.path]: [...(prev[curr.path] || []), curr.message],
+      }),
+      {}
+    );
+  }
+
+  async function validateForm(values) {
+    try {
+      const validForm = await yup
+        .object()
+        .shape(schema)
+        .validate(values, { abortEarly: false });
+      return validForm;
+    } catch (e) {
+      setFormErrors(getErrors(e));
+    }
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
+
+    const validForm = await validateForm(formValues);
+    if (!validForm) return;
+
     console.log(formValues);
   }
 
+  async function validateField(fieldName, fieldValue) {
+    try {
+      await schema[fieldName].validate(fieldValue, { abortEarly: false });
+      setFormErrors((prev) => {
+        const { [fieldName]: _, ...rest } = prev;
+        return rest;
+      });
+    } catch (e) {
+      setFormErrors((state) => ({ ...state, [fieldName]: e.errors }));
+    }
+  }
+
   function onFormFieldChange({ fieldName, fieldValue }) {
+    if (formErrors[fieldName]) validateField(fieldName, fieldValue);
     setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
   }
 
@@ -151,6 +216,7 @@ export function ProductInformation({ className }) {
         <SelectField
           value={formValues["engravingSide"]}
           onChange={handleFieldChange}
+          errors={formErrors["engravingSide"]}
           name="engravingSide"
           label="Engraving Side?"
           id="engravingSide"
@@ -165,6 +231,7 @@ export function ProductInformation({ className }) {
         <SelectField
           value={formValues["color"]}
           onChange={handleFieldChange}
+          errors={formErrors["color"]}
           name="color"
           label="Color"
           id="color"
@@ -179,6 +246,7 @@ export function ProductInformation({ className }) {
         <TextareaField
           value={formValues["personalization"]}
           onChange={handleFieldChange}
+          errors={formErrors["personalization"]}
           maxLength={product.personalization.maxlength}
           id="personalization"
           name="personalization"

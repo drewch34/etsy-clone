@@ -54,3 +54,19 @@
 .label {
   font-size: 0.875rem;
 }
+
+.errorMessage {
+  margin: 0.5rem 0;
+  padding: 0;
+
+  color: #a61a2e;
+
+  list-style-type: none;
+}
+
+.error {
+  select {
+    background-color: #fddcd8;
+    border-color: rgba(166, 26, 46, 0.35);
+  }
+}

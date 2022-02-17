@@ -4,6 +4,7 @@ import styles from "./TextareaField.module.scss";
 export function TextareaField({
   value,
   onChange,
+  errors = [],
   maxLength,
   instructions,
   id,
@@ -11,6 +12,7 @@ export function TextareaField({
 }) {
   const [remainingCharacters, setRemainingCharacters] = useState(maxLength);
   const textareaRef = useRef(null);
+  const hasErrors = errors.length > 0;
 
   useEffect(() => {
     if (!value) return;
@@ -33,7 +35,11 @@ export function TextareaField({
   }, [value]);
 
   return (
-    <div className={`${styles.textareaField}  ${styles.textSmall}`}>
+    <div
+      className={`${styles.textareaField}  ${styles.textSmall}  ${
+        hasErrors ? styles.error : ""
+      }`}
+    >
       <label htmlFor={id}>Add your personalization</label>
       {instructions}
       <textarea
@@ -46,6 +52,14 @@ export function TextareaField({
         id={id}
       />
       <span className={styles.textAlignRight}>{remainingCharacters}</span>
+
+      {hasErrors ? (
+        <ul className={styles.errorMessage}>
+          {errors.map((error, index) => (
+            <li key={index}>{`${error}. `}</li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }

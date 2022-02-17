@@ -34,3 +34,20 @@
 .textAlignRight {
   text-align: right;
 }
+
+.errorMessage {
+  margin: 0.5rem 0;
+  padding: 0;
+
+  color: #a61a2e;
+
+  list-style-type: none;
+  font-size: 1rem;
+}
+
+.error {
+  textarea {
+    background-color: #fddcd8;
+    border-color: rgba(166, 26, 46, 0.35);
+  }
+}
