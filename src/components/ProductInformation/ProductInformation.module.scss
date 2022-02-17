@@ -44,6 +44,10 @@
     font-weight: 300;
     font-family: var(--font-serif);
     font-size: 1.25rem;
+
+    @media (min-width: 900px) {
+      font-size: 1.75rem;
+    }
   }
 
   .popover {
