@@ -1,0 +1,56 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .selectWrapper {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0.5rem;
+      top: 0;
+      bottom: 0;
+      display: block;
+
+      height: 100%;
+      width: 2rem;
+      background-color: red;
+      background: url("../../assets/icon-triangle-down.svg") no-repeat center;
+      background-size: contain;
+
+      pointer-events: none;
+    }
+  }
+
+  select {
+    width: 100%;
+    box-shadow: 0 1px 6px 0 rgb(34 34 34 / 15%);
+    border-radius: 0.5rem;
+    border: 1px solid #e1e3df;
+    background-color: transparent;
+    padding: 1em 2.5em 1em 0.875em;
+
+    font-family: inherit;
+    font-size: 1rem;
+
+    appearance: none;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 1px 12px 0 rgb(34 34 34 / 20%);
+      border-color: #858585;
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+      border-color: #222222;
+    }
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+}

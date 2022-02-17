@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { Popover } from "../Popover/Popover";
+import { SelectField } from "../SelectField/SelectField";
 import styles from "./ProductInformation.module.scss";
 
 const product = {
@@ -12,10 +14,35 @@ const product = {
     numberFormat: "en-US",
   },
   stock: 200,
+  personalization: {
+    required: true,
+    maxlength: 268,
+  },
+  engravingSide: [
+    { value: "1058734824", label: "No Engraving (USD 108.70)" },
+    { value: "1077037115", label: "Front Side Only (USD 212.02)" },
+    { value: "1077037117", label: "Inside Right Only (USD 212.02)" },
+    { value: "1319674161", label: "Inside Left Only (USD 212.02)" },
+    { value: "1077037119", label: "Front & Inside Right (USD 255.52)" },
+    { value: "1094738331", label: "Front & Inside Left (USD 255.52)" },
+    { value: "1319674163", label: "Inside Left & Right (USD 255.52)" },
+    { value: "1058734828", label: "Front & Left & Right (USD 288.15)" },
+  ],
+  color: [
+    { value: "1413611071", label: "Brown" },
+    { value: "1413611075", label: "Black" },
+    { value: "1984551064", label: "Tan" },
+  ],
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
 export function ProductInformation({ className }) {
+  const [formValues, setFormValues] = useState({});
+  const [remainingCharacters, setRemainingCharacters] = useState(
+    product.personalization.maxlength
+  );
+  const textareaRef = useRef(null);
+
   function formatInteger(number) {
     return new Intl.NumberFormat().format(number);
   }
@@ -41,6 +68,47 @@ export function ProductInformation({ className }) {
   function getDiscountPercentage(original, sale) {
     return (original - sale) / original;
   }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(formValues);
+  }
+
+  function handleTextareaChange(event) {
+    const textarea = event.target;
+    const fieldName = textarea.name;
+    const fieldValue = textarea.value;
+    onFormFieldChange({ fieldName, fieldValue });
+    setRemainingCharacters(
+      product.personalization.maxlength - fieldValue.length
+    );
+  }
+
+  function onFormFieldChange({ fieldName, fieldValue }) {
+    setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
+  }
+
+  function handleFieldChange(event) {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+    onFormFieldChange({ fieldName, fieldValue });
+  }
+
+  useEffect(() => {
+    if (!formValues.personalization) return;
+    // resize area
+    const textarea = textareaRef.current;
+    const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
+    const paddingTop = parseFloat(getComputedStyle(textarea).paddingTop);
+    const paddingBottom = parseFloat(getComputedStyle(textarea).paddingBottom);
+    const minRows = 2;
+    textarea.style.height = "";
+    textarea.rows = minRows;
+    const calculatedRows = Math.floor(
+      (textarea.scrollHeight - paddingTop - paddingBottom) / lineHeight
+    );
+    textarea.rows = calculatedRows;
+  }, [formValues.personalization]);
 
   return (
     <section className={`${className}`}>
@@ -124,31 +192,84 @@ export function ProductInformation({ className }) {
           Local taxes included (where applicable)
         </p>
       </section>
+
+      <form onSubmit={handleSubmit} className={styles.productOptions}>
+        <SelectField
+          value={formValues["engravingSide"]}
+          onChange={handleFieldChange}
+          name="engravingSide"
+          label="Engraving Side?"
+          id="engravingSide"
+        >
+          {product.engravingSide.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </SelectField>
+
+        <SelectField
+          value={formValues["color"]}
+          onChange={handleFieldChange}
+          name="color"
+          label="Color"
+          id="color"
+        >
+          {product.color.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </SelectField>
+
+        <div className={`${styles.textareaField}  ${styles.textSmall}`}>
+          <label>Add your personalization</label>
+          <p className={styles.textGray}>
+            Example only:
+            <br />
+            <br />
+            Front: PAUL
+            <br />
+            Inside right: I love you to the moon and back Inside left: I love
+            you more
+            <br />
+            <br />
+            "no engraving" if you choose "no engraving" option
+          </p>
+          <textarea
+            ref={textareaRef}
+            id="personalization"
+            name="personalization"
+            rows={2}
+            maxLength={product.personalization.maxlength}
+            onChange={handleTextareaChange}
+            value={formValues["personalization"]}
+          />
+          <span className={styles.textAlignRight}>{remainingCharacters}</span>
+        </div>
+
+        <div className={styles.addToCart}>
+          <button className={styles.buttonFilledPrimary}>Add to cart</button>
+          <div>
+            <div aria-hidden="true" className="icon xl shoppingCart"></div>
+            <p>
+              <span className={styles.textBold}>Other people want this.</span>{" "}
+              Over 20 people have this in their carts right now.
+            </p>
+          </div>
+          <div>
+            <span aria-hidden="true" className="icon xl bestSellerBadge"></span>
+            <p>
+              <span className={styles.textBold}>Star Seller.</span> This seller
+              has a history of 5-star reviews, shipping on time, and replying
+              quickly when they got any messages.
+            </p>
+          </div>
+        </div>
+      </form>
+
       {/*
 
-      <div className={styles.customizationOptions}>
-        <p className={styles.field}>
-          <label>Engraving Side?</label>
-          <input type="text" />
-        </p>
-
-        <p className={styles.field}>
-          <label>Engraving Side?</label>
-          <input type="text" />
-        </p>
-
-        <p className={styles.field}>
-          <label>Engraving Side?</label>
-          <p>Personalization instructions</p>
-          <input type="text" />
-        </p>
-      </div>
-
-      <div className={styles.callToAction}>
-        <button>Add to cart</button>
-        <p>Other people want this</p>
-        <p>Star seller</p>
-      </div>
 
       <div className={styles.accordion}>
         <h2>Highlights</h2>
