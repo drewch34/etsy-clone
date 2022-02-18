@@ -18,7 +18,7 @@ export function Popover({
         {buttonIcon ? buttonIcon : null}
         {buttonLabel}
       </button>
-      <p tabindex={0} className={styles.popover}>
+      <p tabIndex={0} className={styles.popover}>
         {heading ? (
           <>
             <span className={styles.heading}>{heading}</span>
