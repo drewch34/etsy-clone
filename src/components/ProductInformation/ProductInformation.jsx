@@ -63,8 +63,8 @@ const schema = {
     .required(validationMessages.requiredPersonalization),
 };
 
-export function ProductInformation({ className }) {
-  const { values, errors, onFormFieldChange, onFormSubmit } = useForm(schema);
+export function ProductInformation({ onAddToCart, className }) {
+  const { values, errors, onFormFieldChange, onSubmit } = useForm(schema);
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -76,6 +76,10 @@ export function ProductInformation({ className }) {
 
   function handleFieldChange(event) {
     onFormFieldChange(event.target.name, event.target.value);
+  }
+
+  async function handleFormSubmit(event) {
+    console.log(values);
   }
 
   return (
@@ -161,7 +165,7 @@ export function ProductInformation({ className }) {
         </p>
       </section>
 
-      <form onSubmit={onFormSubmit} className={styles.productOptions}>
+      <form {...onSubmit(handleFormSubmit)} className={styles.productOptions}>
         <SelectField
           value={values["engravingSide"]}
           onChange={handleFieldChange}

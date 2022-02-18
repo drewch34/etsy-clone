@@ -44,14 +44,31 @@ export function useForm(schema) {
     setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
   }
 
-  async function onFormSubmit(event) {
-    event.preventDefault();
+  // async function onFormSubmit(event) {
+  //   event.preventDefault();
 
-    const validForm = await validateForm(values);
-    if (!validForm) return;
+  //   const validForm = await validateForm(values);
+  //   if (!validForm) return;
 
-    return validForm;
+  //   return validForm;
+  // }
+
+  function onSubmit(handleSubmit) {
+    return {
+      onSubmit: async (event) => {
+        event.preventDefault();
+
+        const validForm = await validateForm(values);
+        if (!validForm) return;
+
+        handleSubmit(event);
+      },
+    };
   }
 
-  return { values, errors, onFormFieldChange, onFormSubmit };
+  return { values, errors, onFormFieldChange, onSubmit };
 }
+
+// {...onSubmit(handleSubmit)}
+
+// onSubmit={handleSubmit}
