@@ -8,6 +8,7 @@ import { TextareaField } from "../TextareaField/TextareaField";
 import { useForm } from "../../hooks/useForm";
 
 const product = {
+  id: "3A667282692",
   title:
     "Valentines Day Gift for Him,Personalized Wallet,Mens Wallet,Engraved Wallet,Leather Wallet,Custom Wallet,Boyfriend Gift for Men,Gift for Dad",
   rating: 4.5,
@@ -79,7 +80,17 @@ export function ProductInformation({ onAddToCart, className }) {
   }
 
   async function handleFormSubmit(event) {
-    console.log(values);
+    const productData = {
+      id: product.id,
+      variations: [
+        { id: "variation01", value: values.engravingSide },
+        { id: "variation02", value: values.color },
+      ],
+      personalizations: [
+        { id: "personalization01", value: values.personalization },
+      ],
+    };
+    onAddToCart(productData);
   }
 
   return (

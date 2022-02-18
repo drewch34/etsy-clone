@@ -1,4 +1,5 @@
 import { useState } from "react";
+import _ from "lodash";
 
 import { makeServer } from "./mockServer";
 import styles from "./styles/Home.module.scss";
@@ -14,7 +15,27 @@ if (process.env.NODE_ENV === "development") {
 }
 
 function App() {
-  const [totalItems, setTotalItems] = useState(3);
+  const [totalItems, setTotalItems] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+
+  function handleAddToCart(product) {
+    // check for equality in id, variation and personalization
+    const cartItem = _.find(cartItems, product);
+
+    if (!cartItem) {
+      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      setTotalItems(totalItems + 1);
+    } else {
+      setCartItems(
+        cartItems.map(({ quantity, ...item }) => {
+          if (_.isEqual(item, product)) {
+            return { ...item, quantity: quantity + 1 };
+          }
+          return item;
+        })
+      );
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -41,12 +62,12 @@ function App() {
         <SearchBar className={styles.searchBar} />
       </header>
 
-
       <ProductPhotoGallery className={styles.photo} />
 
-      <ProductInformation className={styles.right}/>
-
-
+      <ProductInformation
+        onAddToCart={handleAddToCart}
+        className={styles.right}
+      />
     </div>
   );
 }
