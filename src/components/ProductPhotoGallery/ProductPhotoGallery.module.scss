@@ -1,23 +1,23 @@
 .photo {
-  width: 60%;
+  width: 90%;
   padding: 20px;
-  grid-template-areas:
-    'images' 'image' 'image' 'image';
+  display: flex;
+  margin-left: -15%;
 }
 
 .images {
   position: relative;
-  grid-area: images;
+  flex: 1;
+  // overflow: hidden;
 }
 
 .image {
-  width: 15%;
-  height: 15%;
+  width: 30%;
+  height: 30%;
   border-radius: 10%;
   padding-top: .5%;
-  align-items: inherit;
-  margin-left: -7%;
-  opacity: 50%
+  margin-left: 0%;
+  opacity: 50%;
 }
 
 .image:hover {
@@ -29,8 +29,16 @@ li {
   list-style-type: none;
 }
 
+.currImageCont {
+  flex: 1;
+}
+
 .currImage {
-  width: 30%;
-  height: 30%;
-  position: relative;
+  width: 175%;
+  border-radius: 5%;
+  margin-left: -25%;
+}
+
+.carouselbtn {
+
 }
