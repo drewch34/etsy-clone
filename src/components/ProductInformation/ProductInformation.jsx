@@ -85,9 +85,7 @@ const product = {
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
 export function ProductInformation({ onAddToCart, className }) {
-  const { values, errors, onFormFieldChange, onSubmit } = useForm(
-    product.fields
-  );
+  const { values, subscribe, onSubmit } = useForm(product.fields);
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -95,10 +93,6 @@ export function ProductInformation({ onAddToCart, className }) {
 
   function getDiscountPercentage(original, sale) {
     return (original - sale) / original;
-  }
-
-  function handleFieldChange(event) {
-    onFormFieldChange(event.target.name, event.target.value);
   }
 
   async function handleFormSubmit(event) {
@@ -123,12 +117,8 @@ export function ProductInformation({ onAddToCart, className }) {
       case "select":
         return (
           <SelectField
-            value={values[field.id]}
-            onChange={handleFieldChange}
-            errors={errors[field.id]}
-            name={field.id}
+            {...subscribe(field.id)}
             label={field.label}
-            id={field.id}
             key={field.id}
           >
             {field.options.map((option) => (
@@ -142,13 +132,10 @@ export function ProductInformation({ onAddToCart, className }) {
       case "textarea":
         return (
           <TextareaField
-            value={values[field.id]}
-            onChange={handleFieldChange}
-            errors={errors[field.id]}
-            maxLength={field.maxLength}
-            id={field.id}
-            name={field.id}
+            {...subscribe(field.id)}
+            label={field.label}
             instructions={field.helperText}
+            maxLength={field.maxLength}
             key={field.id}
           />
         );

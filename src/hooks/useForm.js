@@ -40,7 +40,9 @@ export function useForm(fields) {
     }
   }
 
-  function onFormFieldChange(fieldName, fieldValue) {
+  function onChange(event) {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
     if (errors[fieldName]) validateField(fieldName, fieldValue);
     setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
   }
@@ -58,7 +60,17 @@ export function useForm(fields) {
     };
   }
 
-  return { values, errors, onFormFieldChange, onSubmit };
+  function subscribe(fieldId) {
+    return {
+      value: values[fieldId],
+      onChange: onChange,
+      errors: errors[fieldId],
+      name: fieldId,
+      id: fieldId,
+    };
+  }
+
+  return { values, errors, subscribe, onSubmit };
 }
 
 function createYupShapeSchema(formFields) {
