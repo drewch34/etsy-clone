@@ -18,18 +18,18 @@ function App() {
   const [totalItems, setTotalItems] = useState(0);
   const [cartItems, setCartItems] = useState([]);
 
-  function handleAddToCart(product) {
+  function handleAddToCart({ product, addQuantity = 1 }) {
     // check for equality in id, variation and personalization
     const cartItem = _.find(cartItems, product);
 
     if (!cartItem) {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      setCartItems([...cartItems, { ...product, quantity: addQuantity }]);
       setTotalItems(totalItems + 1);
     } else {
       setCartItems(
         cartItems.map(({ quantity, ...item }) => {
           if (_.isEqual(item, product)) {
-            return { ...item, quantity: quantity + 1 };
+            return { ...item, quantity: quantity + addQuantity };
           }
           return item;
         })

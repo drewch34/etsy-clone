@@ -16,7 +16,7 @@ const product = {
     currency: "USD",
     numberFormat: "en-US",
   },
-  stock: 200,
+  stock: 10,
   fields: [
     {
       id: "variation01",
@@ -24,6 +24,7 @@ const product = {
       label: "Engraving?",
       type: "select",
       options: [
+        { value: "", label: "Select an option" },
         { value: "1058734824", label: "No Engraving (USD 108.70)" },
         { value: "1077037115", label: "Front Side Only (USD 212.02)" },
         { value: "1077037117", label: "Inside Right Only (USD 212.02)" },
@@ -48,6 +49,7 @@ const product = {
       label: "Color",
       type: "select",
       options: [
+        { value: "", label: "Select an option" },
         { value: "1413611071", label: "Brown" },
         { value: "1413611075", label: "Black" },
         { value: "1984551064", label: "Tan" },
@@ -84,8 +86,31 @@ const product = {
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
+const quantityField = {
+  id: "quantity",
+  name: "quantity",
+  label: "Quantity",
+  type: "select",
+  initialValue: 1,
+  options: Array.from(Array(product.stock)).map((_, index) => ({
+    value: index + 1,
+    label: index + 1,
+  })),
+  validation: {
+    schema: "string",
+    methods: [
+      { type: "required", params: ["Please select an option"] },
+      { type: "ensure" },
+      { type: "trim" },
+    ],
+  },
+};
+
 export function ProductInformation({ onAddToCart, className }) {
-  const { values, subscribe, onSubmit } = useForm(product.fields);
+  const { values, subscribe, onSubmit } = useForm([
+    ...product.fields,
+    quantityField,
+  ]);
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -109,7 +134,11 @@ export function ProductInformation({ onAddToCart, className }) {
         return acc;
       }, []),
     };
-    onAddToCart(productData);
+
+    onAddToCart({
+      product: productData,
+      addQuantity: Number(values.quantity) || 1,
+    });
   }
 
   function renderFormElement(field) {
@@ -229,7 +258,7 @@ export function ProductInformation({ onAddToCart, className }) {
       </section>
 
       <form {...onSubmit(handleFormSubmit)} className={styles.productOptions}>
-        {product.fields.map(renderFormElement)}
+        {[...product.fields, quantityField].map(renderFormElement)}
 
         <div className={styles.addToCart}>
           <button className={styles.buttonFilledPrimary}>Add to cart</button>

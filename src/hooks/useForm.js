@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import * as yup from "yup";
 
 export function useForm(fields) {
-  const [values, setFormValues] = useState({});
+  const [values, setFormValues] = useState(getInitialValues(fields));
   const [errors, setFormErrors] = useState({});
   const schema = useMemo(() => createYupShapeSchema(fields), [fields]);
 
@@ -89,5 +89,12 @@ function createYupShapeSchema(formFields) {
     }, yup[schema]());
 
     return { ...shapeSchema, [id]: fieldValidation };
+  }, {});
+}
+
+function getInitialValues(formFields) {
+  return formFields.reduce((initialValues, field) => {
+    if (!field.initialValue) return initialValues;
+    return { ...initialValues, [field.id]: field.initialValue };
   }, {});
 }
