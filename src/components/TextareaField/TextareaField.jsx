@@ -13,6 +13,7 @@ export function TextareaField({
   const [remainingCharacters, setRemainingCharacters] = useState(maxLength);
   const textareaRef = useRef(null);
   const hasErrors = errors.length > 0;
+  const minRows = 1;
 
   useEffect(() => {
     if (!value) return;
@@ -25,7 +26,6 @@ export function TextareaField({
     const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight);
     const paddingTop = parseFloat(getComputedStyle(textarea).paddingTop);
     const paddingBottom = parseFloat(getComputedStyle(textarea).paddingBottom);
-    const minRows = 2;
     textarea.style.height = "";
     textarea.rows = minRows;
     const calculatedRows = Math.floor(
@@ -41,14 +41,14 @@ export function TextareaField({
       }`}
     >
       <label htmlFor={id}>Add your personalization</label>
-      {instructions}
+      <p className={styles.instructions}>{instructions}</p>
       <textarea
         ref={textareaRef}
         maxLength={maxLength}
         onChange={onChange}
         value={value}
         name={name}
-        rows={2}
+        rows={minRows}
         id={id}
       />
       <span className={styles.textAlignRight}>{remainingCharacters}</span>

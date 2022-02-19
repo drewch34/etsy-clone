@@ -65,16 +65,7 @@ const product = {
       id: "personalization01",
       name: "personalization01",
       label: "Add your personalization",
-      helperText: `      Example only:
-
-
-      Front: PAUL
-
-      Inside right: I love you to the moon and back Inside left: I love
-      you more
-
-
-      "no engraving" if you choose "no engraving" option`,
+      helperText: `Example only:\n\nFront: PAUL\nInside right: I love you to the moon and back Inside left: I love\nyou more\n\n"no engraving" if you choose "no engraving" option`,
       type: "textarea",
       maxLength: 268,
       validation: {
