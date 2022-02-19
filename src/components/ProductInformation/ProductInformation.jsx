@@ -1,5 +1,3 @@
-import * as yup from "yup";
-
 import styles from "./ProductInformation.module.scss";
 import { formatCurrency, formatInteger, formatPercent } from "../../utils";
 import { Popover } from "../Popover/Popover";
@@ -19,53 +17,86 @@ const product = {
     numberFormat: "en-US",
   },
   stock: 200,
-  personalization: {
-    required: true,
-    maxlength: 268,
-  },
-  engravingSide: [
-    { value: "1058734824", label: "No Engraving (USD 108.70)" },
-    { value: "1077037115", label: "Front Side Only (USD 212.02)" },
-    { value: "1077037117", label: "Inside Right Only (USD 212.02)" },
-    { value: "1319674161", label: "Inside Left Only (USD 212.02)" },
-    { value: "1077037119", label: "Front & Inside Right (USD 255.52)" },
-    { value: "1094738331", label: "Front & Inside Left (USD 255.52)" },
-    { value: "1319674163", label: "Inside Left & Right (USD 255.52)" },
-    { value: "1058734828", label: "Front & Left & Right (USD 288.15)" },
-  ],
-  color: [
-    { value: "1413611071", label: "Brown" },
-    { value: "1413611075", label: "Black" },
-    { value: "1984551064", label: "Tan" },
+  fields: [
+    {
+      id: "variation01",
+      name: "variation01",
+      label: "Engraving?",
+      type: "select",
+      options: [
+        { value: "1058734824", label: "No Engraving (USD 108.70)" },
+        { value: "1077037115", label: "Front Side Only (USD 212.02)" },
+        { value: "1077037117", label: "Inside Right Only (USD 212.02)" },
+        { value: "1319674161", label: "Inside Left Only (USD 212.02)" },
+        { value: "1077037119", label: "Front & Inside Right (USD 255.52)" },
+        { value: "1094738331", label: "Front & Inside Left (USD 255.52)" },
+        { value: "1319674163", label: "Inside Left & Right (USD 255.52)" },
+        { value: "1058734828", label: "Front & Left & Right (USD 288.15)" },
+      ],
+      validation: {
+        schema: "string",
+        methods: [
+          { type: "required", params: ["Please select an option"] },
+          { type: "ensure" },
+          { type: "trim" },
+        ],
+      },
+    },
+    {
+      id: "variation02",
+      name: "variation02",
+      label: "Color",
+      type: "select",
+      options: [
+        { value: "1413611071", label: "Brown" },
+        { value: "1413611075", label: "Black" },
+        { value: "1984551064", label: "Tan" },
+      ],
+      validation: {
+        schema: "string",
+        methods: [
+          { type: "required", params: ["Please select an option"] },
+          { type: "ensure" },
+          { type: "trim" },
+        ],
+      },
+    },
+    {
+      id: "personalization01",
+      name: "personalization01",
+      label: "Add your personalization",
+      helperText: `      Example only:
+
+
+      Front: PAUL
+
+      Inside right: I love you to the moon and back Inside left: I love
+      you more
+
+
+      "no engraving" if you choose "no engraving" option`,
+      type: "textarea",
+      maxLength: 268,
+      validation: {
+        schema: "string",
+        methods: [
+          {
+            type: "required",
+            params: ["This item requires personalization"],
+          },
+          { type: "ensure" },
+          { type: "trim" },
+        ],
+      },
+    },
   ],
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
-const validationMessages = {
-  requiredOption: "Please select an option",
-  requiredPersonalization: "This item requires personalization",
-};
-
-const schema = {
-  engravingSide: yup
-    .string()
-    .ensure()
-    .trim()
-    .required(validationMessages.requiredOption),
-  color: yup
-    .string()
-    .ensure()
-    .trim()
-    .required(validationMessages.requiredOption),
-  personalization: yup
-    .string()
-    .ensure()
-    .trim()
-    .required(validationMessages.requiredPersonalization),
-};
-
 export function ProductInformation({ onAddToCart, className }) {
-  const { values, errors, onFormFieldChange, onSubmit } = useForm(schema);
+  const { values, errors, onFormFieldChange, onSubmit } = useForm(
+    product.fields
+  );
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -82,15 +113,58 @@ export function ProductInformation({ onAddToCart, className }) {
   async function handleFormSubmit(event) {
     const productData = {
       id: product.id,
-      variations: [
-        { id: "variation01", value: values.engravingSide },
-        { id: "variation02", value: values.color },
-      ],
-      personalizations: [
-        { id: "personalization01", value: values.personalization },
-      ],
+      variations: Object.keys(values).reduce((acc, key) => {
+        if (key.includes("variation"))
+          return [...acc, { id: key, value: values[key] }];
+        return acc;
+      }, []),
+      personalizations: Object.keys(values).reduce((acc, key) => {
+        if (key.includes("personalization"))
+          return [...acc, { id: key, value: values[key] }];
+        return acc;
+      }, []),
     };
     onAddToCart(productData);
+  }
+
+  function renderFormElement(field) {
+    switch (field.type) {
+      case "select":
+        return (
+          <SelectField
+            value={values[field.id]}
+            onChange={handleFieldChange}
+            errors={errors[field.id]}
+            name={field.id}
+            label={field.label}
+            id={field.id}
+            key={field.id}
+          >
+            {field.options.map((option) => (
+              <option value={option.value} key={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SelectField>
+        );
+
+      case "textarea":
+        return (
+          <TextareaField
+            value={values[field.id]}
+            onChange={handleFieldChange}
+            errors={errors[field.id]}
+            maxLength={field.maxLength}
+            id={field.id}
+            name={field.id}
+            instructions={field.helperText}
+            key={field.id}
+          />
+        );
+
+      default:
+        return null;
+    }
   }
 
   return (
@@ -177,58 +251,7 @@ export function ProductInformation({ onAddToCart, className }) {
       </section>
 
       <form {...onSubmit(handleFormSubmit)} className={styles.productOptions}>
-        <SelectField
-          value={values["engravingSide"]}
-          onChange={handleFieldChange}
-          errors={errors["engravingSide"]}
-          name="engravingSide"
-          label="Engraving Side?"
-          id="engravingSide"
-        >
-          {product.engravingSide.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField
-          value={values["color"]}
-          onChange={handleFieldChange}
-          errors={errors["color"]}
-          name="color"
-          label="Color"
-          id="color"
-        >
-          {product.color.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </SelectField>
-
-        <TextareaField
-          value={values["personalization"]}
-          onChange={handleFieldChange}
-          errors={errors["personalization"]}
-          maxLength={product.personalization.maxlength}
-          id="personalization"
-          name="personalization"
-          instructions={
-            <p className={styles.textGray}>
-              Example only:
-              <br />
-              <br />
-              Front: PAUL
-              <br />
-              Inside right: I love you to the moon and back Inside left: I love
-              you more
-              <br />
-              <br />
-              "no engraving" if you choose "no engraving" option
-            </p>
-          }
-        />
+        {product.fields.map(renderFormElement)}
 
         <div className={styles.addToCart}>
           <button className={styles.buttonFilledPrimary}>Add to cart</button>

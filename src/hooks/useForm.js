@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import * as yup from "yup";
 
-export function useForm(schema) {
+export function useForm(fields) {
   const [values, setFormValues] = useState({});
   const [errors, setFormErrors] = useState({});
+  const schema = useMemo(() => createYupShapeSchema(fields), [fields]);
 
   function getErrors(yupErrorObject) {
     return yupErrorObject.inner.reduce(
@@ -44,15 +45,6 @@ export function useForm(schema) {
     setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
   }
 
-  // async function onFormSubmit(event) {
-  //   event.preventDefault();
-
-  //   const validForm = await validateForm(values);
-  //   if (!validForm) return;
-
-  //   return validForm;
-  // }
-
   function onSubmit(handleSubmit) {
     return {
       onSubmit: async (event) => {
@@ -69,6 +61,21 @@ export function useForm(schema) {
   return { values, errors, onFormFieldChange, onSubmit };
 }
 
-// {...onSubmit(handleSubmit)}
+function createYupShapeSchema(formFields) {
+  return formFields.reduce((shapeSchema, field) => {
+    const {
+      id,
+      validation: { schema, methods },
+    } = field;
 
-// onSubmit={handleSubmit}
+    if (!yup[schema]) return shapeSchema;
+    let fieldValidation = methods.reduce((yupSchema, method) => {
+      const { type, params = [] } = method;
+
+      if (!yupSchema[type]) return yupSchema;
+      return yupSchema[type](...params);
+    }, yup[schema]());
+
+    return { ...shapeSchema, [id]: fieldValidation };
+  }, {});
+}
