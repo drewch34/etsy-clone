@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import * as yup from "yup";
 
-export function useForm(schema) {
-  const [values, setFormValues] = useState({});
+export function useForm(fields) {
+  const [values, setFormValues] = useState(getInitialValues(fields));
   const [errors, setFormErrors] = useState({});
+  const schema = useMemo(() => createYupShapeSchema(fields), [fields]);
 
   function getErrors(yupErrorObject) {
     return yupErrorObject.inner.reduce(
@@ -39,19 +40,12 @@ export function useForm(schema) {
     }
   }
 
-  function onFormFieldChange(fieldName, fieldValue) {
+  function onChange(event) {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
     if (errors[fieldName]) validateField(fieldName, fieldValue);
     setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
   }
-
-  // async function onFormSubmit(event) {
-  //   event.preventDefault();
-
-  //   const validForm = await validateForm(values);
-  //   if (!validForm) return;
-
-  //   return validForm;
-  // }
 
   function onSubmit(handleSubmit) {
     return {
@@ -66,9 +60,41 @@ export function useForm(schema) {
     };
   }
 
-  return { values, errors, onFormFieldChange, onSubmit };
+  function subscribe(fieldId) {
+    return {
+      value: values[fieldId],
+      onChange: onChange,
+      errors: errors[fieldId],
+      name: fieldId,
+      id: fieldId,
+    };
+  }
+
+  return { values, errors, subscribe, onSubmit };
 }
 
-// {...onSubmit(handleSubmit)}
+function createYupShapeSchema(formFields) {
+  return formFields.reduce((shapeSchema, field) => {
+    const {
+      id,
+      validation: { schema, methods },
+    } = field;
 
-// onSubmit={handleSubmit}
+    if (!yup[schema]) return shapeSchema;
+    let fieldValidation = methods.reduce((yupSchema, method) => {
+      const { type, params = [] } = method;
+
+      if (!yupSchema[type]) return yupSchema;
+      return yupSchema[type](...params);
+    }, yup[schema]());
+
+    return { ...shapeSchema, [id]: fieldValidation };
+  }, {});
+}
+
+function getInitialValues(formFields) {
+  return formFields.reduce((initialValues, field) => {
+    if (!field.initialValue) return initialValues;
+    return { ...initialValues, [field.id]: field.initialValue };
+  }, {});
+}

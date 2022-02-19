@@ -18,7 +18,6 @@ export function SelectField({
       </label>
       <div className={styles.selectWrapper}>
         <select id={id} name={name} value={value} onChange={onChange}>
-          <option value="">Select an option</option>
           {children}
         </select>
       </div>
