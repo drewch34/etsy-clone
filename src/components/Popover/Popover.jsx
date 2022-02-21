@@ -13,12 +13,12 @@ export function Popover({
   }
 
   return (
-    <div className={`${styles.popoverContainer} ${className}`}>
-      <button onClick={handlePopoverButtonClick}>
+    <span className={`${styles.popoverContainer} ${className}`}>
+      <button onClick={handlePopoverButtonClick} type="button">
         {buttonIcon ? buttonIcon : null}
         {buttonLabel}
       </button>
-      <p tabIndex={0} className={styles.popover}>
+      <span tabIndex={0} className={styles.popover}>
         {heading ? (
           <>
             <span className={styles.heading}>{heading}</span>
@@ -26,7 +26,7 @@ export function Popover({
           </>
         ) : null}
         {children}
-      </p>
-    </div>
+      </span>
+    </span>
   );
 }

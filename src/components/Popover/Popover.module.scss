@@ -1,6 +1,7 @@
 .popoverContainer {
   position: relative;
   width: fit-content;
+  display: inline-block;
 
   & > button {
     border: none;
