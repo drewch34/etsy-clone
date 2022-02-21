@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./ProductPhotoGallery.module.scss";
 import { images } from "../PhotoData";
-
+import { arrows } from "../PhotoButtons";
 
 export function ProductPhotoGallery({className}) {
 
@@ -43,18 +43,17 @@ export function ProductPhotoGallery({className}) {
   return (
     <div className={`${styles.photo} ${className}`}>
       <div className={styles.images}>
-        <ol>
+        <div>
           {images.map((image) => (
-            <li key={image}>
-              <img src={image} alt="wallet" className={styles.image}></img>
-            </li>
+            <div key={image} style={{ backgroundImage:`url(${image})`}} className={styles.image}>
+            </div>
           ))}
-        </ol>
+        </div>
       </div>
 
       <div className={styles.buttoncont}>
-        <button className={`${styles.carouselbtn} ${styles.carselbtnleft}`} onClick={handleLeftClick}>
-          lft
+        <button  className={`${styles.carouselbtn} ${styles.carselbtnleft}`} >
+          <image src={arrows[0]} onClick={handleLeftClick}/>
         </button>
 
       </div>
