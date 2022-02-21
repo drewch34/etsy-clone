@@ -2,22 +2,24 @@
   width: 90%;
   padding: 20px;
   display: flex;
-  margin-left: -15%;
 }
 
 .images {
-  position: relative;
+  // position: relative;
   flex: 1;
-  // overflow: hidden;
+  width: 100%;
+  overflow: hidden;
+  margin-left: 5%;
+  margin-top: -1%;
 }
 
 .image {
-  width: 30%;
-  height: 30%;
   border-radius: 10%;
-  padding-top: .5%;
-  margin-left: 0%;
+  padding-top: 20%;
   opacity: 50%;
+  width: 20%;
+  margin-top: 2%;
+  background-size:100% 100%;
 }
 
 .image:hover {
@@ -25,20 +27,21 @@
   transition:opacity .5s
 }
 
-li {
-  list-style-type: none;
-}
-
 .currImageCont {
   flex: 1;
 }
 
 .currImage {
-  width: 175%;
+  width: 140%;
   border-radius: 5%;
-  margin-left: -25%;
+  margin-left: -35%;
 }
 
-.carouselbtn {
-
+.buttoncont {
+  flex: 1;
+  align-items: 'center';
+  justify-content: 'center';
+  margin-left: -50%;
+  width: 120%;
 }
+
