@@ -126,4 +126,9 @@ input[type="search"]::-webkit-search-results-decoration {
       center;
     background-size: contain;
   }
+
+  &.shippingTruck {
+    background: url("../assets/icon-shipping-truck.svg") no-repeat center;
+    background-size: contain;
+  }
 }

@@ -31,12 +31,8 @@
 
   .popover {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 100%;
 
     margin: 0;
-    margin-left: 1em;
     z-index: 10;
 
     opacity: 0;
@@ -52,6 +48,8 @@
     transition: opacity 0.4s ease;
     font-size: 0.875rem;
     line-height: 1.25rem;
+    font-weight: 300;
+    white-space: pre-line;
 
     &:focus {
       opacity: 1;
@@ -66,8 +64,6 @@
     &::before {
       content: "";
       position: absolute;
-      top: 50%;
-      left: 0;
 
       display: block;
       width: 10px;
@@ -75,8 +71,31 @@
       border-bottom: 1px solid rgba(34, 34, 34, 0.15);
       border-left: 1px solid rgba(34, 34, 34, 0.15);
       background-color: #ffffff;
+    }
 
-      transform: translateY(-50%) translateX(-50%) rotate(45deg);
+    &.bottom {
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 1em;
+
+      &::before {
+        top: 0%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%) rotate(135deg);
+      }
+    }
+
+    &.leftStart {
+      top: -1em;
+      right: 100%;
+      margin-right: 1em;
+
+      &::before {
+        top: 1em;
+        right: 0;
+        margin-top: 0.125em;
+        transform: translateX(50%) rotate(225deg);
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ export function Popover({
   heading,
   children,
   className,
+  position = "bottom",
 }) {
   function handlePopoverButtonClick(e) {
     const popoverEl = e.target.nextSibling;
@@ -18,7 +19,12 @@ export function Popover({
         {buttonIcon ? buttonIcon : null}
         {buttonLabel}
       </button>
-      <span tabIndex={0} className={styles.popover}>
+      <span
+        tabIndex={0}
+        className={`${styles.popover} ${
+          styles[position] ? styles[position] : styles.bottom
+        }`}
+      >
         {heading ? (
           <>
             <span className={styles.heading}>{heading}</span>

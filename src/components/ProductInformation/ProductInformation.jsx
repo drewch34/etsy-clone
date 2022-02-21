@@ -17,6 +17,10 @@ const product = {
     numberFormat: "en-US",
   },
   stock: 10,
+  estimatedDeliveryDate: {
+    min: new Date("02/26/2022").toISOString(),
+    max: new Date("03/03/2022").toISOString(),
+  },
   fields: [
     {
       id: "variation01",
@@ -139,6 +143,13 @@ export function ProductInformation({ onAddToCart, className }) {
       product: productData,
       addQuantity: Number(values.quantity) || 1,
     });
+  }
+
+  function formatDate(date) {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+    }).format(Date.parse(date));
   }
 
   function renderFormElement(field) {
@@ -275,6 +286,26 @@ export function ProductInformation({ onAddToCart, className }) {
               <span className={styles.textBold}>Star Seller.</span> This seller
               has a history of 5-star reviews, shipping on time, and replying
               quickly when they got any messages.
+            </p>
+          </div>
+          <div>
+            <span aria-hidden="true" className="icon xl shippingTruck"></span>
+            <p>
+              <span className={styles.textBold}>
+                Arrives by{" "}
+                <Popover
+                  buttonLabel={`${formatDate(
+                    product.estimatedDeliveryDate.min
+                  )}-
+                ${formatDate(product.estimatedDeliveryDate.max)}`}
+                  position="leftStart"
+                >
+                  {
+                    "The estimated delivery date is based on your purchase date, the recipient's location (actual or inferred), the seller's processing time and location, and the shipping carrier.\n\nOther factors—such as shipping carrier delays or placing an order on weekend/holiday—may push the arrival of your item beyond this date."
+                  }
+                </Popover>
+              </span>{" "}
+              if you order today.
             </p>
           </div>
         </div>
