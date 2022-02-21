@@ -1,5 +1,3 @@
-import * as yup from "yup";
-
 import styles from "./ProductInformation.module.scss";
 import { formatCurrency, formatInteger, formatPercent } from "../../utils";
 import { Popover } from "../Popover/Popover";
@@ -18,54 +16,101 @@ const product = {
     currency: "USD",
     numberFormat: "en-US",
   },
-  stock: 200,
-  personalization: {
-    required: true,
-    maxlength: 268,
-  },
-  engravingSide: [
-    { value: "1058734824", label: "No Engraving (USD 108.70)" },
-    { value: "1077037115", label: "Front Side Only (USD 212.02)" },
-    { value: "1077037117", label: "Inside Right Only (USD 212.02)" },
-    { value: "1319674161", label: "Inside Left Only (USD 212.02)" },
-    { value: "1077037119", label: "Front & Inside Right (USD 255.52)" },
-    { value: "1094738331", label: "Front & Inside Left (USD 255.52)" },
-    { value: "1319674163", label: "Inside Left & Right (USD 255.52)" },
-    { value: "1058734828", label: "Front & Left & Right (USD 288.15)" },
-  ],
-  color: [
-    { value: "1413611071", label: "Brown" },
-    { value: "1413611075", label: "Black" },
-    { value: "1984551064", label: "Tan" },
+  stock: 10,
+  fields: [
+    {
+      id: "variation01",
+      name: "variation01",
+      label: "Engraving?",
+      type: "select",
+      options: [
+        { value: "", label: "Select an option" },
+        { value: "1058734824", label: "No Engraving (USD 108.70)" },
+        { value: "1077037115", label: "Front Side Only (USD 212.02)" },
+        { value: "1077037117", label: "Inside Right Only (USD 212.02)" },
+        { value: "1319674161", label: "Inside Left Only (USD 212.02)" },
+        { value: "1077037119", label: "Front & Inside Right (USD 255.52)" },
+        { value: "1094738331", label: "Front & Inside Left (USD 255.52)" },
+        { value: "1319674163", label: "Inside Left & Right (USD 255.52)" },
+        { value: "1058734828", label: "Front & Left & Right (USD 288.15)" },
+      ],
+      validation: {
+        schema: "string",
+        methods: [
+          { type: "required", params: ["Please select an option"] },
+          { type: "ensure" },
+          { type: "trim" },
+        ],
+      },
+    },
+    {
+      id: "variation02",
+      name: "variation02",
+      label: "Color",
+      type: "select",
+      options: [
+        { value: "", label: "Select an option" },
+        { value: "1413611071", label: "Brown" },
+        { value: "1413611075", label: "Black" },
+        { value: "1984551064", label: "Tan" },
+      ],
+      validation: {
+        schema: "string",
+        methods: [
+          { type: "required", params: ["Please select an option"] },
+          { type: "ensure" },
+          { type: "trim" },
+        ],
+      },
+    },
+    {
+      id: "personalization01",
+      name: "personalization01",
+      label: "Add your personalization",
+      helperText: `Example only:\n\nFront: PAUL\nInside right: I love you to the moon and back Inside left: I love\nyou more\n\n"no engraving" if you choose "no engraving" option`,
+      type: "textarea",
+      maxLength: 268,
+      validation: {
+        schema: "string",
+        methods: [
+          {
+            type: "required",
+            params: ["This item requires personalization"],
+          },
+          { type: "ensure" },
+          { type: "trim" },
+        ],
+      },
+    },
   ],
 };
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
-const validationMessages = {
-  requiredOption: "Please select an option",
-  requiredPersonalization: "This item requires personalization",
-};
-
-const schema = {
-  engravingSide: yup
-    .string()
-    .ensure()
-    .trim()
-    .required(validationMessages.requiredOption),
-  color: yup
-    .string()
-    .ensure()
-    .trim()
-    .required(validationMessages.requiredOption),
-  personalization: yup
-    .string()
-    .ensure()
-    .trim()
-    .required(validationMessages.requiredPersonalization),
+const quantityField = {
+  id: "quantity",
+  name: "quantity",
+  label: "Quantity",
+  type: "select",
+  initialValue: 1,
+  options: Array.from(Array(product.stock)).map((_, index) => ({
+    value: index + 1,
+    label: index + 1,
+  })),
+  validation: {
+    schema: "string",
+    methods: [
+      { type: "required", params: ["Please select an option"] },
+      { type: "ensure" },
+      { type: "trim" },
+    ],
+  },
 };
 
 export function ProductInformation({ onAddToCart, className }) {
-  const { values, errors, onFormFieldChange, onSubmit } = useForm(schema);
+  const { values, subscribe, onSubmit } = useForm([
+    ...product.fields,
+    quantityField,
+  ]);
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -75,22 +120,58 @@ export function ProductInformation({ onAddToCart, className }) {
     return (original - sale) / original;
   }
 
-  function handleFieldChange(event) {
-    onFormFieldChange(event.target.name, event.target.value);
-  }
-
   async function handleFormSubmit(event) {
     const productData = {
       id: product.id,
-      variations: [
-        { id: "variation01", value: values.engravingSide },
-        { id: "variation02", value: values.color },
-      ],
-      personalizations: [
-        { id: "personalization01", value: values.personalization },
-      ],
+      variations: Object.keys(values).reduce((acc, key) => {
+        if (key.includes("variation"))
+          return [...acc, { id: key, value: values[key] }];
+        return acc;
+      }, []),
+      personalizations: Object.keys(values).reduce((acc, key) => {
+        if (key.includes("personalization"))
+          return [...acc, { id: key, value: values[key] }];
+        return acc;
+      }, []),
     };
-    onAddToCart(productData);
+
+    onAddToCart({
+      product: productData,
+      addQuantity: Number(values.quantity) || 1,
+    });
+  }
+
+  function renderFormElement(field) {
+    switch (field.type) {
+      case "select":
+        return (
+          <SelectField
+            {...subscribe(field.id)}
+            label={field.label}
+            key={field.id}
+          >
+            {field.options.map((option) => (
+              <option value={option.value} key={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SelectField>
+        );
+
+      case "textarea":
+        return (
+          <TextareaField
+            {...subscribe(field.id)}
+            label={field.label}
+            instructions={field.helperText}
+            maxLength={field.maxLength}
+            key={field.id}
+          />
+        );
+
+      default:
+        return null;
+    }
   }
 
   return (
@@ -177,58 +258,7 @@ export function ProductInformation({ onAddToCart, className }) {
       </section>
 
       <form {...onSubmit(handleFormSubmit)} className={styles.productOptions}>
-        <SelectField
-          value={values["engravingSide"]}
-          onChange={handleFieldChange}
-          errors={errors["engravingSide"]}
-          name="engravingSide"
-          label="Engraving Side?"
-          id="engravingSide"
-        >
-          {product.engravingSide.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField
-          value={values["color"]}
-          onChange={handleFieldChange}
-          errors={errors["color"]}
-          name="color"
-          label="Color"
-          id="color"
-        >
-          {product.color.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </SelectField>
-
-        <TextareaField
-          value={values["personalization"]}
-          onChange={handleFieldChange}
-          errors={errors["personalization"]}
-          maxLength={product.personalization.maxlength}
-          id="personalization"
-          name="personalization"
-          instructions={
-            <p className={styles.textGray}>
-              Example only:
-              <br />
-              <br />
-              Front: PAUL
-              <br />
-              Inside right: I love you to the moon and back Inside left: I love
-              you more
-              <br />
-              <br />
-              "no engraving" if you choose "no engraving" option
-            </p>
-          }
-        />
+        {[...product.fields, quantityField].map(renderFormElement)}
 
         <div className={styles.addToCart}>
           <button className={styles.buttonFilledPrimary}>Add to cart</button>
