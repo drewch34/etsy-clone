@@ -1,0 +1,55 @@
+.container {
+  font-size: 1rem;
+
+  &:hover {
+    button::before {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(34, 34, 34, 0.075);
+    }
+  }
+
+  button {
+    position: relative;
+
+    margin-left: -1em;
+    width: calc(100% + 2em);
+    border-style: none;
+    background-color: transparent;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75em 1em;
+
+    font-weight: 600;
+
+    transition: background-color 0.2s ease width 0.2s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      margin: auto;
+      border-radius: 999em;
+      display: block;
+
+      z-index: -1;
+
+      width: 0;
+      height: 0;
+
+      transition: width 0.2s ease, height 0.2s ease,
+        background-color 0.2s ease-out;
+
+      background-color: transparent;
+    }
+  }
+}
+
+.expand {
+  transform: rotate(-180deg);
+}
