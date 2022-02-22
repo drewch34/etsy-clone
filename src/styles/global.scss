@@ -50,6 +50,8 @@ input[type="search"]::-webkit-search-results-decoration {
   height: 1rem;
   width: 1rem;
 
+  transition: transform 0.4s ease;
+
   &.sm {
     height: 0.75rem;
     width: 0.75rem;
@@ -129,6 +131,11 @@ input[type="search"]::-webkit-search-results-decoration {
 
   &.shippingTruck {
     background: url("../assets/icon-shipping-truck.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.chevronDown {
+    background: url("../assets/icon-chevron-down.svg") no-repeat center;
     background-size: contain;
   }
 }

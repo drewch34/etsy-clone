@@ -4,6 +4,9 @@ import { Popover } from "../Popover/Popover";
 import { SelectField } from "../SelectField/SelectField";
 import { TextareaField } from "../TextareaField/TextareaField";
 import { useForm } from "../../hooks/useForm";
+import { Accordion } from "../Accordion/Accordion";
+import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
+import { AccordionDetails } from "../AccordionDetails/AccordionDetails";
 
 const product = {
   id: "3A667282692",
@@ -311,17 +314,73 @@ export function ProductInformation({ onAddToCart, className }) {
         </div>
       </form>
 
-      {/*
+      <div>
+        <Accordion startExpanded={true}>
+          <AccordionSummary
+            expandIcon={
+              <span aria-hidden="true" className="icon lg chevronDown"></span>
+            }
+          >
+            Highlights
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>content</p>
+            <p>content</p>
+          </AccordionDetails>
+        </Accordion>
 
+        <Accordion startExpanded={true}>
+          <AccordionSummary
+            expandIcon={
+              <span aria-hidden="true" className="icon lg chevronDown"></span>
+            }
+          >
+            Description
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>content</p>
+          </AccordionDetails>
+        </Accordion>
 
-      <div className={styles.accordion}>
-        <h2>Highlights</h2>
-        <p>content</p>
-        <h2>Description</h2>
-        <h2>Shipping and return policies</h2>
-        <h2>FAQs</h2>
-        <h2>Meet your seller</h2>
-      </div> */}
+        <Accordion startExpanded={true}>
+          <AccordionSummary
+            expandIcon={
+              <span aria-hidden="true" className="icon lg chevronDown"></span>
+            }
+          >
+            Shipping and return policies
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>content</p>
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion>
+          <AccordionSummary
+            expandIcon={
+              <span aria-hidden="true" className="icon lg chevronDown"></span>
+            }
+          >
+            FAQs
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>content</p>
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion startExpanded={true}>
+          <AccordionSummary
+            expandIcon={
+              <span aria-hidden="true" className="icon lg chevronDown"></span>
+            }
+          >
+            Meet your seller
+          </AccordionSummary>
+          <AccordionDetails>
+            <p>content</p>
+          </AccordionDetails>
+        </Accordion>
+      </div>
     </section>
   );
 }
