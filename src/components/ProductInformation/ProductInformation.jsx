@@ -318,7 +318,7 @@ export function ProductInformation({ onAddToCart, className }) {
         <Accordion startExpanded={true}>
           <AccordionSummary
             expandIcon={
-              <span aria-hidden="true" className="icon lg chevronDown"></span>
+              <span aria-hidden="true" className="icon md chevronDown"></span>
             }
           >
             Highlights
@@ -332,7 +332,7 @@ export function ProductInformation({ onAddToCart, className }) {
         <Accordion startExpanded={true}>
           <AccordionSummary
             expandIcon={
-              <span aria-hidden="true" className="icon lg chevronDown"></span>
+              <span aria-hidden="true" className="icon md chevronDown"></span>
             }
           >
             Description
@@ -345,7 +345,7 @@ export function ProductInformation({ onAddToCart, className }) {
         <Accordion startExpanded={true}>
           <AccordionSummary
             expandIcon={
-              <span aria-hidden="true" className="icon lg chevronDown"></span>
+              <span aria-hidden="true" className="icon md chevronDown"></span>
             }
           >
             Shipping and return policies
@@ -358,7 +358,7 @@ export function ProductInformation({ onAddToCart, className }) {
         <Accordion>
           <AccordionSummary
             expandIcon={
-              <span aria-hidden="true" className="icon lg chevronDown"></span>
+              <span aria-hidden="true" className="icon md chevronDown"></span>
             }
           >
             FAQs
@@ -371,7 +371,7 @@ export function ProductInformation({ onAddToCart, className }) {
         <Accordion startExpanded={true}>
           <AccordionSummary
             expandIcon={
-              <span aria-hidden="true" className="icon lg chevronDown"></span>
+              <span aria-hidden="true" className="icon md chevronDown"></span>
             }
           >
             Meet your seller

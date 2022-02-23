@@ -17,7 +17,7 @@ export function ShoppingCartButton({ totalItems }) {
       aria-label={`Shopping cart with ${cartLabel}`}
       className={styles.cartLink}
     >
-      <span aria-hidden="true" className="icon lg cart"></span>
+      <span aria-hidden="true" className="icon md cart"></span>
       {totalItems > 0 ? (
         <span aria-hidden="true" className={styles.badge}>
           {cartBadgeValue}
