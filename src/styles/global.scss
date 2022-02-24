@@ -132,4 +132,9 @@ input[type="search"]::-webkit-search-results-decoration {
     background: url("../assets/icon-chevron-down.svg") no-repeat center;
     background-size: contain;
   }
+
+  &.handmade {
+    background: url("../assets/icon-handmade.svg") no-repeat center;
+    background-size: contain;
+  }
 }

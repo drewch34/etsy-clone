@@ -7,6 +7,7 @@ import { useForm } from "../../hooks/useForm";
 import { Accordion } from "../Accordion/Accordion";
 import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
 import { AccordionDetails } from "../AccordionDetails/AccordionDetails";
+import { TruncateContent } from "../TruncateContent/TruncateContent";
 
 const product = {
   id: "3A667282692",
@@ -90,7 +91,43 @@ const product = {
       },
     },
   ],
+  highlights: [{ id: "handmade", label: "Handmade" }],
+  description: `🔥 STYLISH, SPACIOUS, SAFE and SENTIMENTAL. With handcrafted exquisite top-grain leather from Argentina, RFID blocking technology, and the option for custom engraving, this bifold wallet makes the perfect custom-made gift for him.
+
+  Add initials, favorite catchphrase, quote or inside Joke, even logo to make it extra unique and special! 😍
+  
+  🌈Color Difference: The first 5 pictures is "Brown", the next 3 is "Black", the last two is "Tan". Black and Tan has a more smooth surface. And tan is lighter than brown.
+  
+  👉 ENGRAVED MESSAGE INSTRUCTIONS
+  
+  At the last page of checkout, below the Submit Order button, there is a box where you can “Add an optional NOTE to the seller.” Simply leave your engraving instructions there and you are all set! If you do miss this step, simply shoot us an message and we will make it right!
+  
+  
+  - For " Front Side Only ": The ENGRAVED MESSAGE can be either name or initials.
+  For logo, there's an extra charge of $10, and please contact us and send a picture with a white background.
+  
+  - For " Inside Right or Inside Left " : The ENGRAVED MESSAGE can be up to 5 lines. Approx. 4-5 words per line. We will center the message, except for 2-3 letters initials we will engrave at the corner.
+  
+  *We are only able to engrave exactly what the customer put. We're not responsible for any typo provided by the customer. If two slightly different version is provided, the typed instruction overrides the original version.
+  Please make sure everything is correct before you submit the order. We'll do our best to answer any change request, but no guarantee for any changes.
+  
+  
+  Every single one of our beautiful wallet is handcrafted to perfection and subject to rigorous quality control standards. It comes in a quality, function and style that are unavailable from competing product:
+  
+  - It's made with top grain ARGENTINIAN LEATHER that has a pleasant smell. It softens naturally with use and ages beautifully with time. The inside pocket material is nylon fabric.
+  
+  -Each of the 12 card slot is equipped with RFID BLOCKING lining, keeping your personal and financial info safe. 👮
+  
+  
+  -Measuring only 4.3" x 3.5" when closed, our wallet has a huge capacity of 10 card slots in total-
+  8 visible card slots, 2 hidden slots underneath each side, and 1 NON-REMOVABLE Flip up ID Windows, which you can put ID or photos on both sides. It even has a split billfold to keep your money and receipts organized.👍
+  
+  -Our wallet delivers the function and the style like any expensive wallet out there, but only at a fraction of the cost. As a U.S.-based family business, we are passion about cutting out all the middleman so we can offer you the best deal possible.💰
+  
+  
+  Our wallet makes a perfect gift for him on his Birthday, Anniversary, Graduation, Wedding, Thanksgiving, Christmas, or Father's Day, or even just a treat for yourself! Click “Add to Cart” right now and order yours today!`,
 };
+
 const seller = { name: "StayFinePersonalized", totalSales: 82878 };
 
 const quantityField = {
@@ -324,8 +361,19 @@ export function ProductInformation({ onAddToCart, className }) {
             Highlights
           </AccordionSummary>
           <AccordionDetails>
-            <p>content</p>
-            <p>content</p>
+            <ul className={styles.highlights}>
+              {product.highlights.map((highlight) => (
+                <li key={highlight.id}>
+                  <span className={styles.highlightItem}>
+                    <span
+                      aria-hidden="true"
+                      className={`icon md ${highlight.id}`}
+                    ></span>{" "}
+                    {highlight.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </AccordionDetails>
         </Accordion>
 
@@ -338,7 +386,12 @@ export function ProductInformation({ onAddToCart, className }) {
             Description
           </AccordionSummary>
           <AccordionDetails>
-            <p>content</p>
+            <TruncateContent
+              expandLabel="Learn more about this item"
+              collapseLabel="Less"
+            >
+              <p className={styles.description}>{product.description}</p>
+            </TruncateContent>
           </AccordionDetails>
         </Accordion>
 
