@@ -1,10 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as yup from "yup";
 
 export function useForm(fields) {
-  const [values, setFormValues] = useState(getInitialValues(fields));
-  const [errors, setFormErrors] = useState({});
-  const schema = useMemo(() => createYupShapeSchema(fields), [fields]);
+  const [values, setValues] = useState(getInitialValues(fields));
+  const [errors, setErrors] = useState({});
+  const formRef = useRef(null);
+  const onSubmitRef = useRef(false);
+  const subscribedFieldsRef = useRef({});
+  const schemaRef = useRef(createYupShapeSchema(fields));
 
   function getErrors(yupErrorObject) {
     return yupErrorObject.inner.reduce(
@@ -16,7 +19,7 @@ export function useForm(fields) {
     );
   }
 
-  async function validateForm(values) {
+  async function validateForm(values, schema) {
     try {
       const validForm = await yup
         .object()
@@ -24,27 +27,56 @@ export function useForm(fields) {
         .validate(values, { abortEarly: false });
       return validForm;
     } catch (e) {
-      setFormErrors(getErrors(e));
+      setErrors(getErrors(e));
     }
   }
 
-  async function validateField(fieldName, fieldValue) {
+  async function validateField(fieldName, fieldValue, schema) {
     try {
-      await schema[fieldName].validate(fieldValue, { abortEarly: false });
-      setFormErrors((prev) => {
+      await schema[fieldName].validate(fieldValue, {
+        abortEarly: false,
+      });
+      setErrors((prev) => {
         const { [fieldName]: _, ...rest } = prev;
         return rest;
       });
     } catch (e) {
-      setFormErrors((state) => ({ ...state, [fieldName]: e.errors }));
+      setErrors((state) => ({ ...state, [fieldName]: e.errors }));
     }
   }
 
-  function onChange(event) {
+  function _onChange(event) {
     const fieldName = event.target.name;
     const fieldValue = event.target.value;
-    if (errors[fieldName]) validateField(fieldName, fieldValue);
-    setFormValues((state) => ({ ...state, [fieldName]: fieldValue }));
+    if (errors[fieldName])
+      validateField(fieldName, fieldValue, schemaRef.current);
+
+    setValues((state) => ({ ...state, [fieldName]: fieldValue }));
+  }
+
+  function onChange(handleChange) {
+    return {
+      onChange: async (event) => {
+        _onChange(event);
+        if (handleChange) handleChange(event);
+      },
+    };
+  }
+
+  function getValuesFromSubscribedFields(values) {
+    return Object.keys(values).reduce((subscribedValues, key) => {
+      if (subscribedFieldsRef.current[key])
+        return { ...subscribedValues, [key]: values[key] };
+      return subscribedValues;
+    }, {});
+  }
+
+  function getSchemaFromSubscribedFields(schema) {
+    return Object.keys(schema).reduce((subscribedSchema, key) => {
+      if (subscribedFieldsRef.current[key])
+        return { ...subscribedSchema, [key]: schema[key] };
+      return subscribedSchema;
+    }, {});
   }
 
   function onSubmit(handleSubmit) {
@@ -52,25 +84,80 @@ export function useForm(fields) {
       onSubmit: async (event) => {
         event.preventDefault();
 
-        const validForm = await validateForm(values);
+        const subscribedValues = getValuesFromSubscribedFields(values);
+        const subscribedSchema = getSchemaFromSubscribedFields(
+          schemaRef.current
+        );
+        const validForm = await validateForm(
+          subscribedValues,
+          subscribedSchema
+        );
         if (!validForm) return;
 
         handleSubmit(event);
       },
+      ref: formRef,
     };
   }
 
+  function submit() {
+    onSubmitRef.current = true;
+  }
+
+  function _dispatchPendingFormSubmission() {
+    if (!onSubmitRef.current) return;
+    // when [values] finish updating and there is a pending form submission
+    formRef.current.dispatchEvent(
+      new Event("submit", { bubbles: true, cancelable: true })
+    );
+    onSubmitRef.current = false;
+  }
+  useEffect(_dispatchPendingFormSubmission, [values]);
+
   function subscribe(fieldId) {
+    subscribedFieldsRef.current = {
+      ...subscribedFieldsRef.current,
+      [fieldId]: true,
+    };
+
     return {
-      value: values[fieldId],
-      onChange: onChange,
+      value: values[fieldId] || "",
+      onChange: _onChange,
       errors: errors[fieldId],
       name: fieldId,
       id: fieldId,
     };
   }
 
-  return { values, errors, subscribe, onSubmit };
+  function unsubscribe(fieldId) {
+    const { [fieldId]: removedProperty, ...rest } = subscribedFieldsRef.current;
+    subscribedFieldsRef.current = rest;
+
+    return null;
+  }
+
+  function resetField(fieldId) {
+    const initialValues = getInitialValues(fields);
+    setValues((values) => ({
+      ...values,
+      [fieldId]: initialValues[fieldId] || "",
+    }));
+    setErrors((errors) => {
+      const { [fieldId]: removedField, ...rest } = errors;
+      return { ...rest };
+    });
+  }
+
+  return {
+    values,
+    errors,
+    subscribe,
+    unsubscribe,
+    onSubmit,
+    submit,
+    onChange,
+    resetField,
+  };
 }
 
 function createYupShapeSchema(formFields) {

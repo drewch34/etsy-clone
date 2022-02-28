@@ -138,3 +138,39 @@ input[type="search"]::-webkit-search-results-decoration {
     background-size: contain;
   }
 }
+
+.textGray {
+  color: #3b3b3b;
+}
+
+.textStrikethrough {
+  text-decoration: line-through;
+}
+
+.textBold {
+  font-weight: 600;
+}
+
+.textSmall {
+  font-size: 0.875rem;
+}
+
+.textExtraLarge {
+  font-size: 1.75rem;
+}
+
+.textLight {
+  font-weight: 300;
+}
+
+.textSerif {
+  font-family: var(--font-serif);
+}
+
+.stack > * + * {
+  margin-block-start: 1rem;
+}
+
+.stackSmall > * + * {
+  margin-block-start: 0.5rem;
+}

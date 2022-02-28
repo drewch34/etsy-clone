@@ -1,4 +1,4 @@
-import { useContext, cloneElement } from "react";
+import { useContext, cloneElement, useEffect } from "react";
 
 import styles from "./AccordionSummary.module.scss";
 import {
@@ -6,7 +6,12 @@ import {
   AccordionContextDispatch,
 } from "../../contexts/AccordionContext";
 
-export function AccordionSummary({ expandIcon, children }) {
+export function AccordionSummary({
+  expandIcon,
+  minimal,
+  collapse = false,
+  children,
+}) {
   const expanded = useContext(AccordionContext);
   const dispatch = useContext(AccordionContextDispatch);
 
@@ -14,16 +19,21 @@ export function AccordionSummary({ expandIcon, children }) {
     dispatch((state) => !state);
   }
 
+  useEffect(() => {
+    if (collapse) dispatch(false);
+  }, [collapse, dispatch]);
+
   return (
-    <h2 className={styles.container}>
-      <button onClick={handleToggle}>
-        {children}
-        {cloneElement(expandIcon, {
-          className: `${expandIcon.props.className} ${
-            expanded ? styles.expand : ""
-          }`,
-        })}
-      </button>
-    </h2>
+    <button
+      onClick={handleToggle}
+      className={`${styles.container} ${minimal ? styles.minimal : ""}`}
+    >
+      {children}
+      {cloneElement(expandIcon, {
+        className: `${expandIcon.props.className} ${
+          expanded ? styles.expand : ""
+        }`,
+      })}
+    </button>
   );
 }

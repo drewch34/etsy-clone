@@ -8,6 +8,7 @@ import { Accordion } from "../Accordion/Accordion";
 import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
 import { AccordionDetails } from "../AccordionDetails/AccordionDetails";
 import { TruncateContent } from "../TruncateContent/TruncateContent";
+import { ProductShippingDetails } from "../ProductShippingDetails/ProductShippingDetails";
 
 const product = {
   id: "3A667282692",
@@ -126,9 +127,18 @@ const product = {
   
   
   Our wallet makes a perfect gift for him on his Birthday, Anniversary, Graduation, Wedding, Thanksgiving, Christmas, or Father's Day, or even just a treat for yourself! Click “Add to Cart” right now and order yours today!`,
+  shipping: {
+    city: "Redding",
+    state: "CA",
+  },
+  deliveryLeadTime: "1-2 business days",
 };
 
-const seller = { name: "StayFinePersonalized", totalSales: 82878 };
+const seller = {
+  id: "seller_id_1",
+  name: "StayFinePersonalized",
+  totalSales: 82878,
+};
 
 const quantityField = {
   id: "quantity",
@@ -378,13 +388,16 @@ export function ProductInformation({ onAddToCart, className }) {
         </Accordion>
 
         <Accordion startExpanded={true}>
-          <AccordionSummary
-            expandIcon={
-              <span aria-hidden="true" className="icon md chevronDown"></span>
-            }
-          >
-            Description
-          </AccordionSummary>
+          <h2>
+            <AccordionSummary
+              expandIcon={
+                <span aria-hidden="true" className="icon md chevronDown"></span>
+              }
+            >
+              Description
+            </AccordionSummary>
+          </h2>
+
           <AccordionDetails>
             <TruncateContent
               expandLabel="Learn more about this item"
@@ -396,39 +409,50 @@ export function ProductInformation({ onAddToCart, className }) {
         </Accordion>
 
         <Accordion startExpanded={true}>
-          <AccordionSummary
-            expandIcon={
-              <span aria-hidden="true" className="icon md chevronDown"></span>
-            }
-          >
-            Shipping and return policies
-          </AccordionSummary>
+          <h2>
+            <AccordionSummary
+              expandIcon={
+                <span aria-hidden="true" className="icon md chevronDown"></span>
+              }
+            >
+              Shipping and return policies
+            </AccordionSummary>
+          </h2>
           <AccordionDetails>
-            <p>content</p>
+            <ProductShippingDetails
+              productId={product.id}
+              deliveryLeadTime={product.deliveryLeadTime}
+              shipping={product.shipping}
+              sellerId={seller.id}
+            />
           </AccordionDetails>
         </Accordion>
 
         <Accordion>
-          <AccordionSummary
-            expandIcon={
-              <span aria-hidden="true" className="icon md chevronDown"></span>
-            }
-          >
-            FAQs
-          </AccordionSummary>
+          <h2>
+            <AccordionSummary
+              expandIcon={
+                <span aria-hidden="true" className="icon md chevronDown"></span>
+              }
+            >
+              FAQs
+            </AccordionSummary>
+          </h2>
           <AccordionDetails>
             <p>content</p>
           </AccordionDetails>
         </Accordion>
 
         <Accordion startExpanded={true}>
-          <AccordionSummary
-            expandIcon={
-              <span aria-hidden="true" className="icon md chevronDown"></span>
-            }
-          >
-            Meet your seller
-          </AccordionSummary>
+          <h2>
+            <AccordionSummary
+              expandIcon={
+                <span aria-hidden="true" className="icon md chevronDown"></span>
+              }
+            >
+              Meet your seller
+            </AccordionSummary>
+          </h2>
           <AccordionDetails>
             <p>content</p>
           </AccordionDetails>

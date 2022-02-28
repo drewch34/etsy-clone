@@ -1,4 +1,4 @@
-import { createServer, Model } from "miragejs";
+import { createServer, Model, Response } from "miragejs";
 
 export function makeServer({ environment = "test" } = {}) {
   let server = createServer({
@@ -24,6 +24,19 @@ export function makeServer({ environment = "test" } = {}) {
       this.get("/popular-searches", (schema) => {
         return schema.popularSearches.all().models.slice(0, 4);
       });
+
+      this.get(
+        "/estimated-shipping",
+        (_, request) => {
+          const { productId, sellerId, countryId, postalCode } =
+            request.queryParams;
+
+          const estimatedCost = 1766 + parseInt(countryId.replace(/\D/g, ""));
+
+          return { estimatedCost };
+        },
+        { timing: 2000 }
+      );
 
       this.namespace = "";
       this.passthrough();
