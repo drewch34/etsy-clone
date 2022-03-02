@@ -424,6 +424,7 @@ export function ProductInformation({ onAddToCart, className }) {
               deliveryLeadTime={product.deliveryLeadTime}
               shipping={product.shipping}
               sellerId={seller.id}
+              sellerName={seller.name}
             />
           </AccordionDetails>
         </Accordion>

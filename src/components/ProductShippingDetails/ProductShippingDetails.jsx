@@ -1,13 +1,15 @@
+import { useState } from "react";
+import axios from "axios";
+
 import styles from "./ProductShippingDetails.module.scss";
+import { formatCurrency } from "../../utils";
+import { useForm } from "../../hooks/useForm";
 import { Accordion } from "../Accordion/Accordion";
 import { AccordionDetails } from "../AccordionDetails/AccordionDetails";
 import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
-import { useForm } from "../../hooks/useForm";
 import { SelectField } from "../SelectField/SelectField";
 import { TextField } from "../TextField/TextField";
-import { useState } from "react";
-import axios from "axios";
-import { formatCurrency } from "../../utils";
+import { Popover } from "../Popover/Popover";
 
 const COUNTRY_ID_USA = "209";
 
@@ -123,6 +125,7 @@ export function ProductShippingDetails({
   deliveryLeadTime,
   shipping,
   sellerId,
+  sellerName,
 }) {
   const {
     values,
@@ -210,14 +213,75 @@ export function ProductShippingDetails({
       {loading ? <div className={styles.loader}></div> : null}
 
       <div className={styles.grid}>
-        {deliveryLeadTime ? (
+        {deliveryInformation.timeline ? (
+          <div className={`stackSmall ${styles.estimatedDelivery}`}>
+            <Popover
+              buttonLabel={
+                <span className={"textSmall textGray"}>Estimated arrival</span>
+              }
+              position="leftStart"
+            >
+              {`This is an estimate based on the purchase date, the seller's
+              location, and processing time, and the shipping destination and
+              carrier. \n\n Other factors—such as shipping carrier delays or
+              placing an order on weekend/holiday—may push the arrival of your
+              item beyond this date.`}
+            </Popover>
+            <div className={"textExtraLarge textLight textSerif"}>Mar 5-7</div>
+
+            <div className={styles.deliveryTimeline}>
+              <p className="stackSmall">
+                <span aria-hidden="true" className={styles.firstStep}>
+                  <span aria-hidden="true" className="icon sm handmade"></span>
+                  <span aria-hidden="true" className={styles.line}></span>
+                </span>
+                <span className="block">
+                  {deliveryInformation.timeline.placement}
+                </span>
+                <Popover buttonLabel="Order placed">
+                  After you place your order, {sellerName} will take{" "}
+                  {deliveryLeadTime} to prepare it for shipment.
+                </Popover>
+              </p>
+
+              <p className={`stackSmall ${styles.textAlignCenter}`}>
+                <span aria-hidden="true" className={styles.firstStep}>
+                  <span aria-hidden="true" className={styles.line}></span>
+                  <span aria-hidden="true" className="icon sm truck"></span>
+                  <span aria-hidden="true" className={styles.line}></span>
+                </span>
+                <span className="block">
+                  {deliveryInformation.timeline.shipment}
+                </span>
+                <Popover buttonLabel="Order ships">
+                  {sellerName} puts your order in the mail.
+                </Popover>
+              </p>
+
+              <p className={`stackSmall ${styles.textAlignRight}`}>
+                <span aria-hidden="true" className={styles.firstStep}>
+                  <span aria-hidden="true" className={styles.line}></span>
+                  <span aria-hidden="true" className="icon sm package"></span>
+                </span>
+                <span className="block">
+                  {deliveryInformation.timeline.estimatedDelivery}
+                </span>
+                <Popover buttonLabel="Order ships" position="left">
+                  Estimated to arrive at your doorstep{" "}
+                  {deliveryInformation.timeline.estimatedDelivery}!
+                </Popover>
+              </p>
+            </div>
+          </div>
+        ) : (
           <div className="stackSmall">
             <span className={"textSmall textGray"}>Ready to ship in</span>
             <div className={"textExtraLarge textLight textSerif"}>
               {deliveryLeadTime}
             </div>
           </div>
-        ) : null}
+        )}
+
         {deliveryInformation.estimatedCost ? (
           <div className="stackSmall">
             <span className="textSmall textGray">Cost to ship</span>

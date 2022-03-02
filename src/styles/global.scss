@@ -46,6 +46,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .icon {
+  position: relative;
   padding: 0.75rem;
 
   transition: transform 0.4s ease;
@@ -137,6 +138,16 @@ input[type="search"]::-webkit-search-results-decoration {
     background: url("../assets/icon-handmade.svg") no-repeat center;
     background-size: contain;
   }
+
+  &.truck {
+    background: url("../assets/icon-truck.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.package {
+    background: url("../assets/icon-package.svg") no-repeat center;
+    background-size: contain;
+  }
 }
 
 .textGray {
@@ -173,4 +184,8 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .stackSmall > * + * {
   margin-block-start: 0.5rem;
+}
+
+.block {
+  display: block;
 }
