@@ -77,6 +77,11 @@ input[type="search"]::-webkit-search-results-decoration {
     background-size: contain;
   }
 
+  &.closeWhite {
+    background: url("../assets/icon-close-white.svg") no-repeat center;
+    background-size: contain;
+  }
+
   &.menu {
     background: url("../assets/icon-menu.svg") no-repeat center;
     background-size: contain;
@@ -148,6 +153,50 @@ input[type="search"]::-webkit-search-results-decoration {
     background: url("../assets/icon-package.svg") no-repeat center;
     background-size: contain;
   }
+
+  &.lock {
+    background: url("../assets/icon-lock.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardAmex {
+    background: url("../assets/icon-card-amex.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardDiscover {
+    background: url("../assets/icon-card-discover.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardGiftCard {
+    background: url("../assets/icon-card-giftcard.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardKlarna {
+    background: url("../assets/icon-card-klarna.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardMaster {
+    background: url("../assets/icon-card-master.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardPayPal {
+    background: url("../assets/icon-card-paypal.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardVisa {
+    background: url("../assets/icon-card-visa.svg") no-repeat center;
+    background-size: contain;
+  }
+}
+
+.resetMargins {
+  margin: auto;
 }
 
 .textGray {
@@ -166,8 +215,20 @@ input[type="search"]::-webkit-search-results-decoration {
   font-size: 0.875rem;
 }
 
+.textNormal {
+  font-size: 1rem;
+}
+
+.textMedium {
+  font-size: 1.25rem;
+}
+
 .textExtraLarge {
   font-size: 1.75rem;
+}
+
+.text\:xxl {
+  font-size: 2rem;
 }
 
 .textLight {
@@ -188,4 +249,8 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .block {
   display: block;
+}
+
+.marginBlockStart\:lg {
+  margin-block-start: 1.5rem;
 }

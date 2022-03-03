@@ -138,6 +138,32 @@ const seller = {
   id: "seller_id_1",
   name: "StayFinePersonalized",
   totalSales: 82878,
+  returnAndExchanges: [
+    {
+      title: "I gladly accept exchanges",
+      message:
+        "Contact me within: 14 days of delivery Ship items back within: 30 days of delivery",
+    },
+    {
+      title: "I don't accept returns or cancellations",
+      message:
+        "But please contact me if you have any problems with your order.",
+    },
+    {
+      title: "Conditions of return",
+      message:
+        "Buyers are responsible for return shipping costs. If the item is not returned in its original condition, the buyer is responsible for any loss in value.",
+    },
+  ],
+  paymentMethods: [
+    { id: "PayPal", name: "PayPal" },
+    { id: "Master", name: "MasterCard" },
+    { id: "Visa", name: "Visa" },
+    { id: "Amex", name: "American Express" },
+    { id: "Discover", name: "Discover" },
+    { id: "Klarna", name: "Klarna" },
+    { id: "GiftCard", name: "Gift Card" },
+  ],
 };
 
 const quantityField = {
@@ -423,8 +449,7 @@ export function ProductInformation({ onAddToCart, className }) {
               productId={product.id}
               deliveryLeadTime={product.deliveryLeadTime}
               shipping={product.shipping}
-              sellerId={seller.id}
-              sellerName={seller.name}
+              seller={seller}
             />
           </AccordionDetails>
         </Accordion>

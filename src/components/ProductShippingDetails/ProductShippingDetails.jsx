@@ -10,6 +10,7 @@ import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
 import { SelectField } from "../SelectField/SelectField";
 import { TextField } from "../TextField/TextField";
 import { Popover } from "../Popover/Popover";
+import { Modal } from "../Modal/Modal";
 
 const COUNTRY_ID_USA = "209";
 
@@ -124,8 +125,7 @@ export function ProductShippingDetails({
   productId,
   deliveryLeadTime,
   shipping,
-  sellerId,
-  sellerName,
+  seller,
 }) {
   const {
     values,
@@ -162,7 +162,7 @@ export function ProductShippingDetails({
   async function handleSubmit(event) {
     setLoading(true);
     const { data } = await axios.get("/api/estimated-shipping", {
-      params: { ...values, productId, sellerId },
+      params: { ...values, productId, sellerId: seller.id },
     });
     setLoading(false);
 
@@ -239,7 +239,7 @@ export function ProductShippingDetails({
                   {deliveryInformation.timeline.placement}
                 </span>
                 <Popover buttonLabel="Order placed">
-                  After you place your order, {sellerName} will take{" "}
+                  After you place your order, {seller.name} will take{" "}
                   {deliveryLeadTime} to prepare it for shipment.
                 </Popover>
               </p>
@@ -254,7 +254,7 @@ export function ProductShippingDetails({
                   {deliveryInformation.timeline.shipment}
                 </span>
                 <Popover buttonLabel="Order ships">
-                  {sellerName} puts your order in the mail.
+                  {seller.name} puts your order in the mail.
                 </Popover>
               </p>
 
@@ -330,10 +330,67 @@ export function ProductShippingDetails({
         </p>
       </Accordion>
 
-      {/* <div>
-        <button className={styles.button}>View shop policies</button>
-        <div>modal</div>
-      </div> */}
+      <Modal
+        openButton={
+          <button className={styles.button}>View shop policies</button>
+        }
+        closeButton={
+          <button aria-label="Close shop policies">
+            <span
+              aria-hidden="true"
+              className="block icon md closeWhite"
+            ></span>
+          </button>
+        }
+      >
+        <div className="stackSmall">
+          <h2 className="resetMargins text:xxl textLight textSerif">
+            Shop policies for {seller.name}
+          </h2>
+          <p className="textSmall">Last updated on Sep 3, 2020</p>
+        </div>
+
+        <p className="textMedium textBold marginBlockStart:lg">
+          Return and Exchanges
+        </p>
+
+        {seller.returnAndExchanges.map((item, i) => (
+          <div id={i} className="stackSmall">
+            <h3 className="resetMargins textNormal">{item.title}</h3>
+            <p className="textLight textSmall">{item.message}</p>
+          </div>
+        ))}
+
+        <div className="stack">
+          <h3 className="resetMargins textMedium marginBlockStart:lg">
+            Payments
+          </h3>
+          <p className="textSmall">
+            <span aria-hidden="true" className="icon sm lock"></span>
+            <span className={styles.padding}>Secure options</span>
+          </p>
+
+          <ul className={styles.cards}>
+            {seller.paymentMethods.map((payment) => (
+              <li key={payment.id} aria-label={payment.name}>
+                <span
+                  aria-hidden="true"
+                  className={`icon lg card${payment.id}`}
+                ></span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="textLight textGray">
+            Accepts Etsy Gift Cards and Etsy Credits
+          </p>
+
+          <p className="textLight textSmall textGray">
+            Etsy keeps your payment information secure. Etsy shops never receive
+            your credit card information.
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }
