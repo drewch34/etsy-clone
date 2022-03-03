@@ -3,6 +3,8 @@
   width: fit-content;
   display: inline-block;
 
+  text-align: left;
+
   & > button {
     border: none;
     background-color: transparent;
@@ -22,10 +24,12 @@
 
     &:hover ~ .popover {
       opacity: 1;
+      visibility: visible;
     }
 
     &:focus ~ .popover {
       opacity: 1;
+      visibility: visible;
     }
   }
 
@@ -36,6 +40,7 @@
     z-index: 10;
 
     opacity: 0;
+    visibility: hidden;
     width: max-content;
     max-width: 20rem;
     border-radius: 0.5rem;
@@ -53,6 +58,7 @@
 
     &:focus {
       opacity: 1;
+      visibility: visible;
     }
 
     .heading {
@@ -95,6 +101,18 @@
         right: 0;
         margin-top: 0.125em;
         transform: translateX(50%) rotate(225deg);
+      }
+    }
+
+    &.left {
+      top: -1em;
+      right: 100%;
+      margin-right: 1em;
+
+      &::before {
+        top: 50%;
+        right: 0;
+        transform: translateX(50%) translateY(-50%) rotate(225deg);
       }
     }
   }

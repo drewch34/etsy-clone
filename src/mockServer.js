@@ -33,7 +33,20 @@ export function makeServer({ environment = "test" } = {}) {
 
           const estimatedCost = 1766 + parseInt(countryId.replace(/\D/g, ""));
 
-          return { estimatedCost };
+          const COUNTRY_ID_USA = "209";
+          if (countryId === COUNTRY_ID_USA)
+            return {
+              estimatedCost,
+              timeline: {
+                placement: "Mar 2",
+                shipment: "Mar 3-4",
+                estimatedDelivery: "Mar 8-15",
+              },
+            };
+
+          return {
+            estimatedCost,
+          };
         },
         { timing: 2000 }
       );

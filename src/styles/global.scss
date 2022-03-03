@@ -46,6 +46,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .icon {
+  position: relative;
   padding: 0.75rem;
 
   transition: transform 0.4s ease;
@@ -73,6 +74,11 @@ input[type="search"]::-webkit-search-results-decoration {
 
   &.close {
     background: url("../assets/icon-close.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.closeWhite {
+    background: url("../assets/icon-close-white.svg") no-repeat center;
     background-size: contain;
   }
 
@@ -137,6 +143,60 @@ input[type="search"]::-webkit-search-results-decoration {
     background: url("../assets/icon-handmade.svg") no-repeat center;
     background-size: contain;
   }
+
+  &.truck {
+    background: url("../assets/icon-truck.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.package {
+    background: url("../assets/icon-package.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.lock {
+    background: url("../assets/icon-lock.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardAmex {
+    background: url("../assets/icon-card-amex.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardDiscover {
+    background: url("../assets/icon-card-discover.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardGiftCard {
+    background: url("../assets/icon-card-giftcard.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardKlarna {
+    background: url("../assets/icon-card-klarna.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardMaster {
+    background: url("../assets/icon-card-master.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardPayPal {
+    background: url("../assets/icon-card-paypal.svg") no-repeat center;
+    background-size: contain;
+  }
+
+  &.cardVisa {
+    background: url("../assets/icon-card-visa.svg") no-repeat center;
+    background-size: contain;
+  }
+}
+
+.resetMargins {
+  margin: auto;
 }
 
 .textGray {
@@ -155,8 +215,20 @@ input[type="search"]::-webkit-search-results-decoration {
   font-size: 0.875rem;
 }
 
+.textNormal {
+  font-size: 1rem;
+}
+
+.textMedium {
+  font-size: 1.25rem;
+}
+
 .textExtraLarge {
   font-size: 1.75rem;
+}
+
+.text\:xxl {
+  font-size: 2rem;
 }
 
 .textLight {
@@ -173,4 +245,12 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .stackSmall > * + * {
   margin-block-start: 0.5rem;
+}
+
+.block {
+  display: block;
+}
+
+.marginBlockStart\:lg {
+  margin-block-start: 1.5rem;
 }

@@ -1,13 +1,16 @@
+import { useState } from "react";
+import axios from "axios";
+
 import styles from "./ProductShippingDetails.module.scss";
+import { formatCurrency } from "../../utils";
+import { useForm } from "../../hooks/useForm";
 import { Accordion } from "../Accordion/Accordion";
 import { AccordionDetails } from "../AccordionDetails/AccordionDetails";
 import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
-import { useForm } from "../../hooks/useForm";
 import { SelectField } from "../SelectField/SelectField";
 import { TextField } from "../TextField/TextField";
-import { useState } from "react";
-import axios from "axios";
-import { formatCurrency } from "../../utils";
+import { Popover } from "../Popover/Popover";
+import { Modal } from "../Modal/Modal";
 
 const COUNTRY_ID_USA = "209";
 
@@ -122,7 +125,7 @@ export function ProductShippingDetails({
   productId,
   deliveryLeadTime,
   shipping,
-  sellerId,
+  seller,
 }) {
   const {
     values,
@@ -159,7 +162,7 @@ export function ProductShippingDetails({
   async function handleSubmit(event) {
     setLoading(true);
     const { data } = await axios.get("/api/estimated-shipping", {
-      params: { ...values, productId, sellerId },
+      params: { ...values, productId, sellerId: seller.id },
     });
     setLoading(false);
 
@@ -210,14 +213,75 @@ export function ProductShippingDetails({
       {loading ? <div className={styles.loader}></div> : null}
 
       <div className={styles.grid}>
-        {deliveryLeadTime ? (
+        {deliveryInformation.timeline ? (
+          <div className={`stackSmall ${styles.estimatedDelivery}`}>
+            <Popover
+              buttonLabel={
+                <span className={"textSmall textGray"}>Estimated arrival</span>
+              }
+              position="leftStart"
+            >
+              {`This is an estimate based on the purchase date, the seller's
+              location, and processing time, and the shipping destination and
+              carrier. \n\n Other factors—such as shipping carrier delays or
+              placing an order on weekend/holiday—may push the arrival of your
+              item beyond this date.`}
+            </Popover>
+            <div className={"textExtraLarge textLight textSerif"}>Mar 5-7</div>
+
+            <div className={styles.deliveryTimeline}>
+              <p className="stackSmall">
+                <span aria-hidden="true" className={styles.firstStep}>
+                  <span aria-hidden="true" className="icon sm handmade"></span>
+                  <span aria-hidden="true" className={styles.line}></span>
+                </span>
+                <span className="block">
+                  {deliveryInformation.timeline.placement}
+                </span>
+                <Popover buttonLabel="Order placed">
+                  After you place your order, {seller.name} will take{" "}
+                  {deliveryLeadTime} to prepare it for shipment.
+                </Popover>
+              </p>
+
+              <p className={`stackSmall ${styles.textAlignCenter}`}>
+                <span aria-hidden="true" className={styles.firstStep}>
+                  <span aria-hidden="true" className={styles.line}></span>
+                  <span aria-hidden="true" className="icon sm truck"></span>
+                  <span aria-hidden="true" className={styles.line}></span>
+                </span>
+                <span className="block">
+                  {deliveryInformation.timeline.shipment}
+                </span>
+                <Popover buttonLabel="Order ships">
+                  {seller.name} puts your order in the mail.
+                </Popover>
+              </p>
+
+              <p className={`stackSmall ${styles.textAlignRight}`}>
+                <span aria-hidden="true" className={styles.firstStep}>
+                  <span aria-hidden="true" className={styles.line}></span>
+                  <span aria-hidden="true" className="icon sm package"></span>
+                </span>
+                <span className="block">
+                  {deliveryInformation.timeline.estimatedDelivery}
+                </span>
+                <Popover buttonLabel="Order ships" position="left">
+                  Estimated to arrive at your doorstep{" "}
+                  {deliveryInformation.timeline.estimatedDelivery}!
+                </Popover>
+              </p>
+            </div>
+          </div>
+        ) : (
           <div className="stackSmall">
             <span className={"textSmall textGray"}>Ready to ship in</span>
             <div className={"textExtraLarge textLight textSerif"}>
               {deliveryLeadTime}
             </div>
           </div>
-        ) : null}
+        )}
+
         {deliveryInformation.estimatedCost ? (
           <div className="stackSmall">
             <span className="textSmall textGray">Cost to ship</span>
@@ -266,10 +330,67 @@ export function ProductShippingDetails({
         </p>
       </Accordion>
 
-      {/* <div>
-        <button className={styles.button}>View shop policies</button>
-        <div>modal</div>
-      </div> */}
+      <Modal
+        openButton={
+          <button className={styles.button}>View shop policies</button>
+        }
+        closeButton={
+          <button aria-label="Close shop policies">
+            <span
+              aria-hidden="true"
+              className="block icon md closeWhite"
+            ></span>
+          </button>
+        }
+      >
+        <div className="stackSmall">
+          <h2 className="resetMargins text:xxl textLight textSerif">
+            Shop policies for {seller.name}
+          </h2>
+          <p className="textSmall">Last updated on Sep 3, 2020</p>
+        </div>
+
+        <p className="textMedium textBold marginBlockStart:lg">
+          Return and Exchanges
+        </p>
+
+        {seller.returnAndExchanges.map((item, i) => (
+          <div id={i} className="stackSmall">
+            <h3 className="resetMargins textNormal">{item.title}</h3>
+            <p className="textLight textSmall">{item.message}</p>
+          </div>
+        ))}
+
+        <div className="stack">
+          <h3 className="resetMargins textMedium marginBlockStart:lg">
+            Payments
+          </h3>
+          <p className="textSmall">
+            <span aria-hidden="true" className="icon sm lock"></span>
+            <span className={styles.padding}>Secure options</span>
+          </p>
+
+          <ul className={styles.cards}>
+            {seller.paymentMethods.map((payment) => (
+              <li key={payment.id} aria-label={payment.name}>
+                <span
+                  aria-hidden="true"
+                  className={`icon lg card${payment.id}`}
+                ></span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="textLight textGray">
+            Accepts Etsy Gift Cards and Etsy Credits
+          </p>
+
+          <p className="textLight textSmall textGray">
+            Etsy keeps your payment information secure. Etsy shops never receive
+            your credit card information.
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

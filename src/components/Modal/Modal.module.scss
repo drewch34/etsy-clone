@@ -1,0 +1,82 @@
+:root {
+  --transition-fade-out: left 0s 0.2s, opacity 0.2s ease;
+  --transition-fade-in: left 0s, opacity 0.2s ease;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 100%; // element initially outside viewport
+  right: 0;
+
+  background-color: rgba(34, 34, 34, 0.65);
+  opacity: 0;
+  visibility: 0;
+
+  transition: var(--transition-fade-out);
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 100%; // element initially outside viewport
+  right: 0;
+  z-index: 100;
+  padding-top: 15vh;
+
+  opacity: 0;
+  visibility: 0;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  transition: var(--transition-fade-out), padding-top 0.2s ease;
+
+  pointer-events: none;
+
+  &.open {
+    padding-top: 10vh;
+    transition: padding-top 0.2s ease;
+  }
+}
+
+.modal {
+  position: relative;
+  border-radius: 1.25em;
+  margin: auto;
+
+  max-width: 45ch;
+  background-color: #fff;
+  padding: 2em;
+
+  pointer-events: auto;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-100%);
+  margin-right: -1em;
+
+  background-color: transparent;
+  border-style: none;
+  border-radius: 50%;
+  padding: 1em;
+
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 5%);
+  }
+}
+
+.open {
+  left: 0;
+  visibility: 1;
+  opacity: 1;
+
+  transition: var(--transition-fade-in);
+}
