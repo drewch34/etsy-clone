@@ -249,3 +249,49 @@
 .lineHeight\:tallish {
   line-height: 1.5rem;
 }
+
+.cluster {
+  display: flex;
+  flex: wrap;
+  gap: 1rem;
+}
+
+.sellerLogo {
+  border-radius: 0.5rem;
+}
+
+.buttonOutlined {
+  position: relative;
+  border-style: none;
+  padding: 0.75em;
+  background-color: transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 0.125rem solid #222222;
+    border-radius: 999em;
+
+    background-color: #fff;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  &:hover {
+    &::before {
+      transform: scale(101%, 104%);
+      box-shadow: 0 4px 20px rgba(34, 34, 34, 0.15);
+    }
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
