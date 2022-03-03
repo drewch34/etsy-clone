@@ -1,16 +1,19 @@
 .photo {
-  width: 90%;
   padding: 20px;
   display: flex;
 }
 
 .images {
-  // position: relative;
-  flex: 1;
+  order: 1;
   width: 100%;
   overflow: hidden;
   margin-left: 5%;
   margin-top: -1%;
+  margin-right: -20%;
+}
+
+.sub {
+  float: left;
 }
 
 .image {
@@ -28,54 +31,59 @@
 }
 
 .currImageCont {
-  flex: 1;
+  order: 3;
+  margin-left: -2%;
+  // margin-right: -10%;
 }
 
 .currImage {
-  width: 160%;
+  width: 100%;
   border-radius: 5%;
   margin-left: -22%;
+  margin-right: -5%;
 }
 
 .buttoncont {
-  flex: 1;
-  flex-direction: column;
-  margin-left: -30%;
-  margin-right: -32%;
+  order: 2;
+  // flex-direction: column;
   align-items: center;
   background-color: white;
+  margin-left: -5%;
+  // position: absolute;
+  width: 50%;
 }
 
 .carselbtnleft {
   display: block;
-  width: 14%;
-  height: 7%;
+  width: 40%;
+  // height: 7%;
   background-size: 100% 100%;
   border-radius: 50%;
   background-color: white;
-  margin-top: 65%;
-  margin-left: -12%;
+  margin-top: 150%;
   border-style: none;
-  box-shadow: 0px 0px 20px 20px #F6F6F6 ;
+  box-shadow: 0px 0px 20px 20px #F6F6F6;
+  // position: absolute;
 }
 
 
 .buttoncontrght {
-  flex: 1;
-  flex-direction: column;
+  order: 4;
+  // flex-direction: column;
   align-items: center;
   background-color: white;
-  margin-top: 30%;
-  margin-right: -50%;
-  margin-left: 20%;
+  margin-right: -5%;
+  margin-left: -5%;
+  // position: absolute;
+  width: 50%;
 }
 
 .carouselbtnrght {
-  display: block;
   background-color: white;
   background-size: 100% 100%;
-  width: 14%;
-  height: 12%;
+  width: 40%;
+  margin-top: 150%;
+  margin-left: -20%;
   border-style: none;
   border-radius: 50%;
   box-shadow: 0px 0px 20px 20px #F6F6F6;
