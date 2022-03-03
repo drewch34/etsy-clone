@@ -9,6 +9,7 @@ import { AccordionSummary } from "../AccordionSummary/AccordionSummary";
 import { AccordionDetails } from "../AccordionDetails/AccordionDetails";
 import { TruncateContent } from "../TruncateContent/TruncateContent";
 import { ProductShippingDetails } from "../ProductShippingDetails/ProductShippingDetails";
+import { useState } from "react";
 
 const product = {
   id: "3A667282692",
@@ -164,6 +165,37 @@ const seller = {
     { id: "Klarna", name: "Klarna" },
     { id: "GiftCard", name: "Gift Card" },
   ],
+  faq: [
+    {
+      question: "Gift wrapping and packaging",
+      answer:
+        "We surely can do personal/gift notes for you, just leave the instruction when you place the order, and we will copy & paste and include it on a nice piece of designed postcard . 🎁\n\nHowever, we don't offer gift wrap or personalization on the box. Our box is made of tan colored cardboard and has our logo “Stay Fine” on top and it’s really easy to wrap :)",
+    },
+    {
+      question: "Custom and personalized orders",
+      answer:
+        "We use laser engraving⚡ , which means the words are carved into the leather that looks dark and black, and it lasts forever.\n\nPlease take care of your text since we're not responsible for any typo provided by the customer. If two slightly different version is provided, the typed instruction overrides the original version.",
+    },
+    {
+      question: "Care instructions",
+      answer:
+        "It's good practice to gently wipe or brush your purse regularly to remove the daily build up of dust and dirt which can build up.\nDo spot clean any stains with warm water.\nDon't machine wash leather.\nTry your best not to get it wet wherever possible.\n\nI hope this is helpful!! :)",
+    },
+    {
+      question: "Wholesale availability",
+      answer:
+        "If you're first time buyer ordering more than 3 items, we're glad to give 10% off 😊 Feel free to message me!\n\nTHANK YOU for considering us to be part of something so special in your life.",
+    },
+    {
+      question: "If we mis-engraved your item??",
+      answer:
+        "We hold ourselves for high standard!! But mistake may happens since we're human beings...\n\nIf we mis-engraved your item, we're glad to send you a replacement, or refund the engraving fee, whichever you choose. However, we don't do refund for personalized item per our store policy, thanks!! :)",
+    },
+    {
+      question: "Why my order got cancel?",
+      answer: `We always message the customer before we cancel any order that has an issue like the following:\n1. Engraving fee not matching the instruction.\nFor example, you paid "FRONT & INSIDE RIGHT" but didn't give us any engraving instruction, or only give us the one for FRONT.\n\n2. There's some countries we don't ship except if you're willing to take full responsibility of potential mail lost risk:\n\nSpain, Austria, Belgium, Russia, Denmark, India, Egypt, Pakistan, Dubai, Indonesia, Philipine; Peru; Bulgaria; Mexico; South Africa, Brazil, Nepal, Colombia\n\n3. Or any issue that we needs confirmation from you before we can process the order. We may cancel in 2-3 days if we don't hear from you.\n\nPlease feel free to re-order again :)`,
+    },
+  ],
 };
 
 const quantityField = {
@@ -191,6 +223,7 @@ export function ProductInformation({ onAddToCart, className }) {
     ...product.fields,
     quantityField,
   ]);
+  const [faqAccordionExpanded, setFaqAccordionExpanded] = useState();
 
   function getDiscount(original, sale) {
     return original - sale;
@@ -259,6 +292,10 @@ export function ProductInformation({ onAddToCart, className }) {
       default:
         return null;
     }
+  }
+
+  function handleExpandFaqAccordion(event) {
+    setFaqAccordionExpanded(event.target.id);
   }
 
   return (
@@ -465,7 +502,33 @@ export function ProductInformation({ onAddToCart, className }) {
             </AccordionSummary>
           </h2>
           <AccordionDetails>
-            <p>content</p>
+            {seller.faq.map((item, i) => (
+              <Accordion key={i}>
+                <AccordionSummary
+                  expandIcon={
+                    <span
+                      aria-hidden="true"
+                      className="icon md chevronDown"
+                    ></span>
+                  }
+                  id={i}
+                  onClick={handleExpandFaqAccordion}
+                  collapse={faqAccordionExpanded !== i.toString()}
+                >
+                  <span className="textSmall">{item.question}</span>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {item.answer.split("\n\n").map((paragraph, i) => (
+                    <p
+                      key={i}
+                      className={`textLight textSmall ${styles["whiteSpace:preLine"]} ${styles["lineHeight:tallish"]}`}
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </AccordionDetails>
         </Accordion>
 
