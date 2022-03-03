@@ -153,6 +153,8 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 0.125em;
 
+  list-style-type: none;
+
   & > li {
     border: 0.125rem solid rgba(34, 34, 34, 0.075);
     padding: 0.125em;
