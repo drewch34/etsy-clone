@@ -207,6 +207,10 @@ input[type="search"]::-webkit-search-results-decoration {
   text-decoration: line-through;
 }
 
+.textRegular {
+  font-weight: 400;
+}
+
 .textBold {
   font-weight: 600;
 }
@@ -237,6 +241,10 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .textSerif {
   font-family: var(--font-serif);
+}
+
+.textAlignCenter {
+  text-align: center;
 }
 
 .stack > * + * {

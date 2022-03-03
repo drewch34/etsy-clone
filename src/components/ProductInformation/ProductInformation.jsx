@@ -196,6 +196,7 @@ const seller = {
       answer: `We always message the customer before we cancel any order that has an issue like the following:\n1. Engraving fee not matching the instruction.\nFor example, you paid "FRONT & INSIDE RIGHT" but didn't give us any engraving instruction, or only give us the one for FRONT.\n\n2. There's some countries we don't ship except if you're willing to take full responsibility of potential mail lost risk:\n\nSpain, Austria, Belgium, Russia, Denmark, India, Egypt, Pakistan, Dubai, Indonesia, Philipine; Peru; Bulgaria; Mexico; South Africa, Brazil, Nepal, Colombia\n\n3. Or any issue that we needs confirmation from you before we can process the order. We may cancel in 2-3 days if we don't hear from you.\n\nPlease feel free to re-order again :)`,
     },
   ],
+  owner: "Awesome Owner",
 };
 
 const quantityField = {
@@ -542,8 +543,35 @@ export function ProductInformation({ onAddToCart, className }) {
               Meet your seller
             </AccordionSummary>
           </h2>
-          <AccordionDetails>
-            <p>content</p>
+          <AccordionDetails className="stack">
+            <div className={styles.cluster}>
+              <img
+                alt="Seller logo"
+                src="https://via.placeholder.com/75"
+                className={styles.sellerLogo}
+              />
+              <div className="stackSmall">
+                <p className="resetMargins textExtraLarge textSerif">
+                  {seller.owner}
+                </p>
+                <p className="resetMargins textSmall textLight">
+                  Owner of{" "}
+                  <a href="/#" className="block">
+                    {seller.name}
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <button
+              className={`${styles.buttonOutlined} ${styles.fullWidth} textBold`}
+            >
+              Message {seller.owner}
+            </button>
+            <p className="resetMargins textGray textLight textSmall textAlignCenter">
+              This seller usually responds{" "}
+              <span className="textRegular">within a few hours.</span>
+            </p>
           </AccordionDetails>
         </Accordion>
       </div>
