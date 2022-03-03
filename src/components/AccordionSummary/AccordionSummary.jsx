@@ -10,13 +10,16 @@ export function AccordionSummary({
   expandIcon,
   minimal,
   collapse = false,
+  onClick = () => {},
   children,
+  ...rest
 }) {
   const expanded = useContext(AccordionContext);
   const dispatch = useContext(AccordionContextDispatch);
 
-  function handleToggle() {
+  function handleToggle(event) {
     dispatch((state) => !state);
+    onClick(event);
   }
 
   useEffect(() => {
@@ -27,6 +30,7 @@ export function AccordionSummary({
     <button
       onClick={handleToggle}
       className={`${styles.container} ${minimal ? styles.minimal : ""}`}
+      {...rest}
     >
       {children}
       {cloneElement(expandIcon, {
