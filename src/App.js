@@ -40,26 +40,28 @@ function App() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <a href="/#" tabIndex={0} className={styles.logo}>
-          <img src={logo} alt="Logo" />
-        </a>
+        <div className={styles.headerContainer}>
+          <a href="/#" tabIndex={0} className={styles.logo}>
+            <img src={logo} alt="Logo" />
+          </a>
 
-        <nav aria-label="Main navigation" className={styles.mainNavigation}>
-          <ul className={styles.links}>
-            <li>
-              <a href="/#" className={styles.signInLink}>
-                Sign in
-              </a>
-            </li>
-            <li>
-              <ShoppingCartButton totalItems={totalItems} />
-            </li>
-          </ul>
-        </nav>
+          <nav aria-label="Main navigation" className={styles.mainNavigation}>
+            <ul className={styles.links}>
+              <li>
+                <a href="/#" className={styles.signInLink}>
+                  Sign in
+                </a>
+              </li>
+              <li>
+                <ShoppingCartButton totalItems={totalItems} />
+              </li>
+            </ul>
+          </nav>
 
-        <CategoryNavigation className={styles.categoryNavigation} />
+          <CategoryNavigation className={styles.categoryNavigation} />
 
-        <SearchBar className={styles.searchBar} />
+          <SearchBar className={styles.searchBar} />
+        </div>
       </header>
 
       <ProductPhotoGallery className={styles.photo} />
