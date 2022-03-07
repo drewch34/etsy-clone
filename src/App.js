@@ -38,7 +38,7 @@ function App() {
   }
 
   return (
-    <div className={styles.container}>
+    <>
       <header className={styles.header}>
         <div className={styles.headerContainer}>
           <a href="/#" tabIndex={0} className={styles.logo}>
@@ -64,13 +64,15 @@ function App() {
         </div>
       </header>
 
-      <ProductPhotoGallery className={styles.photo} />
+      <main className={styles.main}>
+        <ProductPhotoGallery className={styles.photo} />
 
-      <ProductInformation
-        onAddToCart={handleAddToCart}
-        className={styles.right}
-      />
-    </div>
+        <ProductInformation
+          onAddToCart={handleAddToCart}
+          className={styles.right}
+        />
+      </main>
+    </>
   );
 }
 

@@ -1,5 +1,4 @@
 .photo {
-  padding: 20px;
   display: flex;
 }
 
@@ -22,12 +21,12 @@
   opacity: 50%;
   width: 20%;
   margin-top: 2%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 
 .image:hover {
-  opacity:100%;
-  transition:opacity .5s
+  opacity: 100%;
+  transition: opacity 0.5s;
 }
 
 .currImageCont {
@@ -62,10 +61,9 @@
   background-color: white;
   margin-top: 150%;
   border-style: none;
-  box-shadow: 0px 0px 20px 20px #F6F6F6;
+  box-shadow: 0px 0px 20px 20px #f6f6f6;
   // position: absolute;
 }
-
 
 .buttoncontrght {
   order: 4;
@@ -86,9 +84,8 @@
   margin-left: -20%;
   border-style: none;
   border-radius: 50%;
-  box-shadow: 0px 0px 20px 20px #F6F6F6;
+  box-shadow: 0px 0px 20px 20px #f6f6f6;
 }
 
 .butnimg {
-
 }

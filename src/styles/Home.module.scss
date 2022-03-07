@@ -139,14 +139,17 @@
   grid-area: searchBar;
 }
 
-.container {
+.main {
+  margin: auto;
+  margin-top: 2em;
+
+  max-width: var(--page-content-max-width);
   display: flex;
   flex-direction: column;
 
   @media (min-width: 900px) {
     display: grid;
     grid-template-areas:
-      "header header"
       "photo right"
       "reviews right"
       "more more"
@@ -154,10 +157,6 @@
       "footer footer";
     grid-template-columns: 2fr 1fr;
     grid-gap: 10px;
-
-    & > .header {
-      grid-area: header;
-    }
 
     & > .photo {
       grid-area: photo;
